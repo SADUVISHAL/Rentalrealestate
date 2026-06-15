@@ -1,0 +1,1129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rental Real Estate | Flats, PGs & Home Services</title>
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="images/flat_1.png">
+    <!-- FontAwesome for Premium Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Main Style Sheet -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- Top Contact Bar -->
+    <div class="top-bar" id="top-contact-bar">
+        <div class="container">
+            <div class="top-bar-info">
+                <a href="tel:+917730001446" id="top-phone-link">
+                    <i class="fa-solid fa-phone"></i> +91 77300 01446
+                </a>
+                <a href="mailto:vishalsadu2007@gmail.com" id="top-email-link">
+                    <i class="fa-solid fa-envelope"></i> vishalsadu2007@gmail.com
+                </a>
+            </div>
+            <div>
+                <span style="font-weight: 600;"><i class="fa-solid fa-circle-check" style="color: var(--success);"></i> Verified Real Estate Portal</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Navigation Header -->
+    <header class="main-header" id="header-navbar">
+        <div class="container header-container">
+            <a href="#" class="logo" id="logo-home-trigger">
+                <i class="fa-solid fa-house-chimney"></i> Rental<span>RealEstate</span>
+            </a>
+            
+            <nav class="nav-menu" id="navigation-links">
+                <a href="#home" class="nav-link active" data-target="home-section">Home</a>
+                <a href="#flats" class="nav-link" data-target="flats-section">Flats for Rent</a>
+                <a href="#pgs" class="nav-link" data-target="pgs-section">PG Accommodations</a>
+                <a href="#services" class="nav-link" data-target="services-section">Services</a>
+                <a href="#about" class="nav-link" data-target="about-section">About Us</a>
+                <a href="#contact" class="nav-link" data-target="contact-section">Contact Us</a>
+                <a href="#admin" class="nav-link admin-link" data-target="admin-section" id="admin-nav-btn">
+                    <i class="fa-solid fa-user-gear"></i> Admin Panel
+                </a>
+            </nav>
+            
+            <button class="mobile-nav-toggle" id="mobile-menu-toggle" aria-label="Toggle Navigation Menu">
+                <i class="fa-solid fa-bars"></i>
+            </button>
+        </div>
+    </header>
+
+    <!-- MAIN CONTENT CONTAINER -->
+    <main>
+        
+        <!-- PAGE 1: HOME PAGE -->
+        <section id="home-section" class="page-section active">
+            <!-- Hero Banner -->
+            <div class="hero-section" style="background-image: url('images/hero_bg.png');" id="hero-banner">
+                <div class="container">
+                    <div class="hero-container">
+                        <span class="hero-subtitle">Premium Rental Services</span>
+                        <h1 class="hero-title">Find Your Perfect Rental Property</h1>
+                        <p class="hero-description">Explore verified flats, cozy PG accommodations, and professional home services tailored to your needs. Fast, transparent, and hassle-free.</p>
+                        <div class="hero-actions">
+                            <button class="btn btn-primary" onclick="app.navigateTo('flats-section')">
+                                <i class="fa-solid fa-building"></i> View Flats
+                            </button>
+                            <button class="btn btn-outline" onclick="app.navigateTo('pgs-section')">
+                                <i class="fa-solid fa-bed"></i> Explore PGs
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="container">
+                <!-- Featured Categories -->
+                <div class="section-header" id="featured-categories-header">
+                    <span class="section-tag">Categories</span>
+                    <h2 class="section-title">What are you looking for?</h2>
+                    <p class="section-desc">Choose from our verified database of direct-owner flats and student-friendly PG accommodations.</p>
+                </div>
+
+                <div class="categories-grid" id="categories-cards-container">
+                    <!-- Flat Category Card -->
+                    <div class="category-card" id="category-card-flats">
+                        <img src="images/flat_1.png" alt="Flats For Rent" class="category-img">
+                        <div class="category-content">
+                            <h3>Flats For Rent</h3>
+                            <p>Browse affordable and premium apartments in your preferred locations with filters for BHK, budget, and furnishing status.</p>
+                            <button class="btn btn-primary" onclick="app.navigateTo('flats-section')">
+                                View Flats <i class="fa-solid fa-arrow-right"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- PG Category Card -->
+                    <div class="category-card" id="category-card-pgs">
+                        <img src="images/pg_1.png" alt="PG Accommodations" class="category-img">
+                        <div class="category-content">
+                            <h3>PG Accommodations</h3>
+                            <p>Find secure and comfortable Paying Guest setups with amenities like food, high-speed WiFi, and daily maintenance.</p>
+                            <button class="btn btn-primary" onclick="app.navigateTo('pgs-section')">
+                                View PGs <i class="fa-solid fa-arrow-right"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Services Preview Section -->
+                <div class="services-preview-section glass-card" id="home-services-preview">
+                    <div class="section-header" style="margin-top: 0;">
+                        <span class="section-tag">Home Solutions</span>
+                        <h2 class="section-title">Our Essential Home Services</h2>
+                        <p class="section-desc">From finding your next home to maintaining it, we provide trusted professionals for every chore.</p>
+                    </div>
+
+                    <div class="services-grid-mini" id="services-preview-list">
+                        <div class="service-card-mini">
+                            <div class="service-icon-wrapper"><i class="fa-solid fa-handshake"></i></div>
+                            <h4>Rental Assistance</h4>
+                            <p>Find listings matching your taste quickly.</p>
+                        </div>
+                        <div class="service-card-mini">
+                            <div class="service-icon-wrapper"><i class="fa-solid fa-paint-roller"></i></div>
+                            <h4>Painting</h4>
+                            <p>Professional wall painting and detailing.</p>
+                        </div>
+                        <div class="service-card-mini">
+                            <div class="service-icon-wrapper"><i class="fa-solid fa-broom"></i></div>
+                            <h4>Deep Cleaning</h4>
+                            <p>Sanitized deep clean for a fresh start.</p>
+                        </div>
+                        <div class="service-card-mini">
+                            <div class="service-icon-wrapper"><i class="fa-solid fa-wrench"></i></div>
+                            <h4>Plumbing</h4>
+                            <p>Quick bathroom fittings & leakage repairs.</p>
+                        </div>
+                    </div>
+
+                    <div class="services-cta-center">
+                        <button class="btn btn-secondary" onclick="app.navigateTo('services-section')">
+                            Explore All Services <i class="fa-solid fa-angles-right"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- About Preview Section -->
+                <div class="about-preview-section" id="home-about-preview">
+                    <div class="about-preview-grid">
+                        <div class="about-preview-img-container">
+                            <img src="images/hero_bg.png" alt="About Rental Real Estate" style="width: 100%; height: 100%; object-fit: cover;">
+                        </div>
+                        <div class="about-preview-content">
+                            <span class="section-tag">Who We Are</span>
+                            <h2>About Rental Real Estate</h2>
+                            <p>We bridge the gap between property owners and prospective tenants by offering verified lists of properties, transparent details, and immediate bookings.</p>
+                            <p>Moreover, we take care of your living experience with premium home maintenance services, certified technicians, and responsive customer support.</p>
+                            
+                            <div class="about-bullets">
+                                <div class="about-bullet-item">
+                                    <i class="fa-solid fa-circle-check"></i> 100% Verified Property Listings
+                                </div>
+                                <div class="about-bullet-item">
+                                    <i class="fa-solid fa-circle-check"></i> Direct-to-Owner Contact (No Brokerage)
+                                </div>
+                                <div class="about-bullet-item">
+                                    <i class="fa-solid fa-circle-check"></i> On-Demand Maintenance Services
+                                </div>
+                            </div>
+
+                            <button class="btn btn-primary" onclick="app.navigateTo('about-section')">
+                                Read More About Us
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        
+        <!-- PAGE 2: FLATS FOR RENT -->
+        <section id="flats-section" class="page-section">
+            <div class="container">
+                <div class="section-header" style="margin-top: 40px; margin-bottom: 20px;">
+                    <span class="section-tag">Apartments</span>
+                    <h1 class="section-title">Flats For Rent</h1>
+                    <p class="section-desc">Search through beautiful flats, select your criteria, and book with ease.</p>
+                </div>
+
+                <div class="portal-layout">
+                    <!-- Filters Sidebar -->
+                    <aside class="filter-sidebar glass-card" id="flats-filter-sidebar">
+                        <h3 class="filter-title" style="border-bottom: 2px solid var(--neutral-200); padding-bottom: 12px; margin-bottom: 20px;">
+                            <i class="fa-solid fa-sliders"></i> Search Filters
+                        </h3>
+                        
+                        <!-- Search by Location -->
+                        <div class="filter-group">
+                            <label class="filter-title" for="flat-search-loc">Location</label>
+                            <input type="text" id="flat-search-loc" class="input-text" placeholder="Enter city or area...">
+                        </div>
+
+                        <!-- Budget Range -->
+                        <div class="filter-group">
+                            <label class="filter-title">Budget (Monthly Rent)</label>
+                            <input type="range" id="flat-budget-range" class="range-slider" min="5000" max="50000" step="1000" value="50000">
+                            <div class="range-values">
+                                <span>₹5,000</span>
+                                <span id="flat-budget-val" style="color: var(--accent); font-weight: 700;">Up to ₹50,000</span>
+                            </div>
+                        </div>
+
+                        <!-- BHK Type -->
+                        <div class="filter-group">
+                            <span class="filter-title">BHK Type</span>
+                            <div class="checkbox-group">
+                                <label class="checkbox-label"><input type="checkbox" name="flat-bhk" value="1 BHK"> 1 BHK</label>
+                                <label class="checkbox-label"><input type="checkbox" name="flat-bhk" value="2 BHK"> 2 BHK</label>
+                                <label class="checkbox-label"><input type="checkbox" name="flat-bhk" value="3 BHK"> 3 BHK</label>
+                                <label class="checkbox-label"><input type="checkbox" name="flat-bhk" value="4 BHK"> 4 BHK</label>
+                            </div>
+                        </div>
+
+                        <!-- Furnishing Status -->
+                        <div class="filter-group">
+                            <span class="filter-title">Furnishing</span>
+                            <div class="checkbox-group">
+                                <label class="checkbox-label"><input type="checkbox" name="flat-furnish" value="Fully Furnished"> Fully Furnished</label>
+                                <label class="checkbox-label"><input type="checkbox" name="flat-furnish" value="Semi Furnished"> Semi Furnished</label>
+                                <label class="checkbox-label"><input type="checkbox" name="flat-furnish" value="Unfurnished"> Unfurnished</label>
+                            </div>
+                        </div>
+
+                        <!-- Availability Status -->
+                        <div class="filter-group">
+                            <span class="filter-title">Availability</span>
+                            <div class="checkbox-group">
+                                <label class="checkbox-label"><input type="checkbox" id="flat-avail-check" checked> Available Only</label>
+                            </div>
+                        </div>
+
+                        <button class="btn btn-primary" style="width: 100%; margin-top: 10px;" id="apply-flat-filters-btn">
+                            Apply Filters
+                        </button>
+                        <button class="btn btn-secondary" style="width: 100%; margin-top: 10px; padding: 8px;" id="reset-flat-filters-btn">
+                            Reset Filters
+                        </button>
+                    </aside>
+
+                    <!-- Property Listings List -->
+                    <div class="listings-content">
+                        <div class="listings-header">
+                            <div class="listings-count" id="flats-count-label">Showing 0 properties</div>
+                            <div>
+                                <select class="form-select" id="flat-sort-select" style="padding: 6px 12px; font-size: 0.85rem;">
+                                    <option value="default">Sort By: Featured</option>
+                                    <option value="rent-asc">Rent: Low to High</option>
+                                    <option value="rent-desc">Rent: High to Low</option>
+                                    <option value="area-desc">Area: Largest First</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="listings-grid" id="flats-grid-container">
+                            <!-- Dynamically generated flat cards go here -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        
+        <!-- PAGE 3: PG ACCOMMODATIONS -->
+        <section id="pgs-section" class="page-section">
+            <div class="container">
+                <div class="section-header" style="margin-top: 40px; margin-bottom: 20px;">
+                    <span class="section-tag">Co-Living</span>
+                    <h1 class="section-title">PG Accommodations</h1>
+                    <p class="section-desc">Comfortable, budget-friendly sharing spaces for students and working professionals.</p>
+                </div>
+
+                <div class="portal-layout">
+                    <!-- Filters Sidebar -->
+                    <aside class="filter-sidebar glass-card" id="pgs-filter-sidebar">
+                        <h3 class="filter-title" style="border-bottom: 2px solid var(--neutral-200); padding-bottom: 12px; margin-bottom: 20px;">
+                            <i class="fa-solid fa-sliders"></i> PG Filters
+                        </h3>
+                        
+                        <!-- Search by Location -->
+                        <div class="filter-group">
+                            <label class="filter-title" for="pg-search-loc">Location</label>
+                            <input type="text" id="pg-search-loc" class="input-text" placeholder="Enter area or city...">
+                        </div>
+
+                        <!-- Gender Specification -->
+                        <div class="filter-group">
+                            <span class="filter-title">Gender Preference</span>
+                            <div class="checkbox-group">
+                                <label class="checkbox-label"><input type="checkbox" name="pg-gender" value="Male"> Male PG</label>
+                                <label class="checkbox-label"><input type="checkbox" name="pg-gender" value="Female"> Female PG</label>
+                                <label class="checkbox-label"><input type="checkbox" name="pg-gender" value="Unisex"> Unisex / Co-Ed</label>
+                            </div>
+                        </div>
+
+                        <!-- Budget Range -->
+                        <div class="filter-group">
+                            <label class="filter-title">Budget (Monthly Rent)</label>
+                            <input type="range" id="pg-budget-range" class="range-slider" min="3000" max="20000" step="500" value="20000">
+                            <div class="range-values">
+                                <span>₹3,000</span>
+                                <span id="pg-budget-val" style="color: var(--accent); font-weight: 700;">Up to ₹20,000</span>
+                            </div>
+                        </div>
+
+                        <!-- Food Availability -->
+                        <div class="filter-group">
+                            <span class="filter-title">Food Included</span>
+                            <div class="checkbox-group">
+                                <label class="checkbox-label"><input type="checkbox" id="pg-food-check"> Meals Included</label>
+                            </div>
+                        </div>
+
+                        <!-- AC/Non-AC Status -->
+                        <div class="filter-group">
+                            <span class="filter-title">AC Options</span>
+                            <div class="checkbox-group">
+                                <label class="checkbox-label"><input type="checkbox" name="pg-ac" value="AC"> Air Conditioned</label>
+                                <label class="checkbox-label"><input type="checkbox" name="pg-ac" value="Non-AC"> Non-AC</label>
+                            </div>
+                        </div>
+
+                        <!-- Sharing Occupancy Type -->
+                        <div class="filter-group">
+                            <span class="filter-title">Occupancy</span>
+                            <div class="checkbox-group">
+                                <label class="checkbox-label"><input type="checkbox" name="pg-occupancy" value="Single Sharing"> Single Sharing</label>
+                                <label class="checkbox-label"><input type="checkbox" name="pg-occupancy" value="Double Sharing"> Double Sharing</label>
+                                <label class="checkbox-label"><input type="checkbox" name="pg-occupancy" value="Triple Sharing"> Triple Sharing</label>
+                            </div>
+                        </div>
+
+                        <button class="btn btn-primary" style="width: 100%; margin-top: 10px;" id="apply-pg-filters-btn">
+                            Apply Filters
+                        </button>
+                        <button class="btn btn-secondary" style="width: 100%; margin-top: 10px; padding: 8px;" id="reset-pg-filters-btn">
+                            Reset Filters
+                        </button>
+                    </aside>
+
+                    <!-- PG Listings List -->
+                    <div class="listings-content">
+                        <div class="listings-header">
+                            <div class="listings-count" id="pgs-count-label">Showing 0 listings</div>
+                            <div>
+                                <select class="form-select" id="pg-sort-select" style="padding: 6px 12px; font-size: 0.85rem;">
+                                    <option value="default">Sort By: Featured</option>
+                                    <option value="rent-asc">Rent: Low to High</option>
+                                    <option value="rent-desc">Rent: High to Low</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="listings-grid" id="pgs-grid-container">
+                            <!-- Dynamically generated PG cards go here -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        
+        <!-- PAGE 4: SERVICES -->
+        <section id="services-section" class="page-section">
+            <div class="container">
+                <!-- Header Banner -->
+                <div class="services-banner" style="background-image: linear-gradient(135deg, rgba(30, 27, 75, 0.95) 0%, rgba(15, 23, 42, 0.85) 100%), url('images/service_bg.png'); background-size: cover; background-position: center;" id="services-hero-banner">
+                    <span class="section-tag" style="color: var(--accent-light);">Reliable Assistance</span>
+                    <h1>On-Demand Home Services</h1>
+                    <p style="max-width: 600px; margin: 0 auto; color: var(--neutral-300);">Book verified professionals for rental onboarding, home painting, deep cleaning, and utility maintenance services.</p>
+                </div>
+
+                <div class="services-layout-grid">
+                    <!-- Service Items List -->
+                    <div class="services-list-container" id="services-detailed-list">
+                        <!-- Service 1: Rental Assistance -->
+                        <div class="service-list-card glass-card" id="service-card-rental">
+                            <div class="service-list-icon"><i class="fa-solid fa-handshake"></i></div>
+                            <div class="service-list-info">
+                                <h3>Rental Assistance</h3>
+                                <p>Get dedicated personal support to find properties, negotiate lease agreements, document rental paperwork, and handle move-in logistics with ease.</p>
+                                <div class="service-features-list">
+                                    <span class="service-feature"><i class="fa-solid fa-check"></i> Paperwork & Lease</span>
+                                    <span class="service-feature"><i class="fa-solid fa-check"></i> Tenant Verification</span>
+                                    <span class="service-feature"><i class="fa-solid fa-check"></i> Price Negotiation</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Service 2: Painting -->
+                        <div class="service-list-card glass-card" id="service-card-painting">
+                            <div class="service-list-icon"><i class="fa-solid fa-paint-roller"></i></div>
+                            <div class="service-list-info">
+                                <h3>Professional Painting</h3>
+                                <p>Refresh your flat or PG with beautiful wall colors. We utilize top-grade low-VOC paints with clean service and dust-free machinery.</p>
+                                <div class="service-features-list">
+                                    <span class="service-feature"><i class="fa-solid fa-check"></i> Walls & Ceiling Painting</span>
+                                    <span class="service-feature"><i class="fa-solid fa-check"></i> Waterproofing Treatment</span>
+                                    <span class="service-feature"><i class="fa-solid fa-check"></i> Free Quote Survey</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Service 3: Cleaning -->
+                        <div class="service-list-card glass-card" id="service-card-cleaning">
+                            <div class="service-list-icon"><i class="fa-solid fa-broom"></i></div>
+                            <div class="service-list-info">
+                                <h3>Deep & Regular Cleaning</h3>
+                                <p>Keep your home sanitized and glowing. Includes kitchen degreasing, bathroom descaling, balcony cleaning, window wash, and floor sanitization.</p>
+                                <div class="service-features-list">
+                                    <span class="service-feature"><i class="fa-solid fa-check"></i> Deep Kitchen & Bath Sanitization</span>
+                                    <span class="service-feature"><i class="fa-solid fa-check"></i> Eco-Friendly Cleaners</span>
+                                    <span class="service-feature"><i class="fa-solid fa-check"></i> Carpet & Sofa Shampoo</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Service 4: Plumbing -->
+                        <div class="service-list-card glass-card" id="service-card-plumbing">
+                            <div class="service-list-icon"><i class="fa-solid fa-wrench"></i></div>
+                            <div class="service-list-info">
+                                <h3>Plumbing Services</h3>
+                                <p>Certified plumbers to handle leaks, install geysers, repair bathroom fittings, clear blocked drainage pipes, and fix kitchen sinks.</p>
+                                <div class="service-features-list">
+                                    <span class="service-feature"><i class="fa-solid fa-check"></i> Leakage Detection & Fix</span>
+                                    <span class="service-feature"><i class="fa-solid fa-check"></i> Appliance Installation</span>
+                                    <span class="service-feature"><i class="fa-solid fa-check"></i> 30-Day Service Warranty</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Service 5: Electrician -->
+                        <div class="service-list-card glass-card" id="service-card-electrical">
+                            <div class="service-list-icon"><i class="fa-solid fa-bolt"></i></div>
+                            <div class="service-list-info">
+                                <h3>Electrical Installation & Repairs</h3>
+                                <p>Fix fuse issues, install decorative lights, wall fans, AC servicing, replace worn-out wiring and plug boards with safety-verified parts.</p>
+                                <div class="service-features-list">
+                                    <span class="service-feature"><i class="fa-solid fa-check"></i> Short-Circuit Inspection</span>
+                                    <span class="service-feature"><i class="fa-solid fa-check"></i> Fan & Light Installation</span>
+                                    <span class="service-feature"><i class="fa-solid fa-check"></i> Switched-Socket Fitting</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Service 6: Interior Setup -->
+                        <div class="service-list-card glass-card" id="service-card-interior">
+                            <div class="service-list-icon"><i class="fa-solid fa-couch"></i></div>
+                            <div class="service-list-info">
+                                <h3>Interior Setup & Improvements</h3>
+                                <p>Convert empty rooms to fully functioning premium living areas. Includes furniture mounting, modular kitchen tweaks, wardrobe installations.</p>
+                                <div class="service-features-list">
+                                    <span class="service-feature"><i class="fa-solid fa-check"></i> Furniture Assembly</span>
+                                    <span class="service-feature"><i class="fa-solid fa-check"></i> Wallpaper & Decor mount</span>
+                                    <span class="service-feature"><i class="fa-solid fa-check"></i> Space Optimization</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Service Booking Card -->
+                    <aside class="booking-sidebar-container">
+                        <div class="booking-sidebar-card glass-card" id="booking-form-wrapper">
+                            <h3><i class="fa-solid fa-calendar-check" style="color: var(--accent);"></i> Book a Service</h3>
+                            <p>Fill out the form below. Our support coordinator will get in touch with you shortly to confirm timings.</p>
+                            
+                            <form id="service-booking-form">
+                                <div class="form-group">
+                                    <label class="form-label" for="booking-name">Full Name</label>
+                                    <input type="text" id="booking-name" class="form-input" placeholder="Enter your name" required>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="form-label" for="booking-phone">Mobile Number</label>
+                                    <input type="tel" id="booking-phone" class="form-input" placeholder="e.g. +91 77300 01446" required>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="form-label" for="booking-email">Email Address</label>
+                                    <input type="email" id="booking-email" class="form-input" placeholder="name@example.com" required>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="form-label" for="booking-service">Service Required</label>
+                                    <select id="booking-service" class="form-select" required>
+                                        <option value="" disabled selected>Select a Service</option>
+                                        <option value="Rental Assistance">Rental Assistance</option>
+                                        <option value="Painting">Painting</option>
+                                        <option value="Deep Cleaning">Deep Cleaning</option>
+                                        <option value="Plumbing">Plumbing</option>
+                                        <option value="Electrician">Electrician</option>
+                                        <option value="Interior Setup">Interior Setup</option>
+                                        <option value="Other Home Services">Other Home Services</option>
+                                    </select>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="form-label" for="booking-date">Preferred Date</label>
+                                    <input type="date" id="booking-date" class="form-input" required>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="form-label" for="booking-message">Message / Details</label>
+                                    <textarea id="booking-message" class="form-textarea" placeholder="Provide extra requirements (e.g. 2 BHK interior painting, urgent plumbing)..." required></textarea>
+                                </div>
+
+                                <button type="submit" class="btn btn-primary booking-form-btn">
+                                    Book Service <i class="fa-solid fa-paper-plane"></i>
+                                </button>
+                            </form>
+                        </div>
+                    </aside>
+                </div>
+            </div>
+        </section>
+
+        
+        <!-- PAGE 5: ABOUT US -->
+        <section id="about-section" class="page-section">
+            <div class="container">
+                <div class="about-header" id="about-page-header">
+                    <span class="section-tag" style="color: var(--accent-light);">Our Identity</span>
+                    <h1>About Rental Real Estate</h1>
+                    <p style="max-width: 600px; margin: 0 auto; color: var(--neutral-100);">Bringing convenience, affordability, and transparency to properties and home services.</p>
+                </div>
+
+                <div class="about-content-section" id="about-details-content">
+                    <div class="about-image-side">
+                        <img src="images/flat_1.png" alt="Modern Flat Interior" style="width: 100%; height: 100%; object-fit: cover;">
+                    </div>
+                    <div class="about-text-side">
+                        <h2>Your Trusted Housing Partner</h2>
+                        <p>Rental Real Estate is dedicated to helping individuals find quality rental properties and PG accommodations. We remove broker intervention, allowing direct connection to verified owners to save you thousands in middleman fees.</p>
+                        <p>In addition, our company arranges certified home maintenance technicians (electricians, plumbers, deep cleaners) right to your doorstep, making property management simple, affordable, and trustworthy for both tenants and landlords.</p>
+                        <p>Whether you are a student moving to a new city, a professional looking for a furnished workspace flat, or a property owner seeking qualified tenants, Rental Real Estate has custom plans for everyone.</p>
+                    </div>
+                </div>
+
+                <div class="mission-vision-grid" id="about-mission-cards">
+                    <div class="mv-card glass-card" id="mission-card">
+                        <i class="fa-solid fa-bullseye"></i>
+                        <h3>Our Mission</h3>
+                        <p>To make rental property search and local home maintenance services simple, affordable, transparent, and completely broker-free across all urban neighborhoods.</p>
+                    </div>
+                    <div class="mv-card glass-card" id="vision-card">
+                        <i class="fa-solid fa-eye"></i>
+                        <h3>Our Vision</h3>
+                        <p>To establish a verified housing ecosystem where tenants can search, inspect, book flats or PGs, and coordinate maintenance chores completely inside a unified app dashboard.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        
+        <!-- PAGE 6: CONTACT US -->
+        <section id="contact-section" class="page-section">
+            <div class="container">
+                <div class="section-header" style="margin-top: 40px; margin-bottom: 20px;">
+                    <span class="section-tag">Get In Touch</span>
+                    <h1 class="section-title">Contact Us</h1>
+                    <p class="section-desc">Have questions about flats, listing listings, or home services? Write to us, we are here to help!</p>
+                </div>
+
+                <div class="contact-grid">
+                    <!-- Contact Info Panel -->
+                    <div class="contact-info-card glass-card" id="contact-info-details">
+                        <h3 class="contact-info-title text-gradient">Information</h3>
+                        
+                        <div class="contact-info-item">
+                            <div class="contact-info-icon"><i class="fa-solid fa-phone"></i></div>
+                            <div class="contact-info-text">
+                                <h4>Phone</h4>
+                                <p><a href="tel:+917730001446">+91 77300 01446</a></p>
+                            </div>
+                        </div>
+
+                        <div class="contact-info-item">
+                            <div class="contact-info-icon"><i class="fa-solid fa-envelope"></i></div>
+                            <div class="contact-info-text">
+                                <h4>Email</h4>
+                                <p><a href="mailto:vishalsadu2007@gmail.com">vishalsadu2007@gmail.com</a></p>
+                            </div>
+                        </div>
+
+                        <div class="contact-info-item">
+                            <div class="contact-info-icon"><i class="fa-solid fa-map-location-dot"></i></div>
+                            <div class="contact-info-text">
+                                <h4>Office Address</h4>
+                                <p>Rental Real Estate HQ,<br>Buxar, Bihar, India - 802101</p>
+                            </div>
+                        </div>
+
+                        <div class="contact-info-item">
+                            <div class="contact-info-icon"><i class="fa-solid fa-clock"></i></div>
+                            <div class="contact-info-text">
+                                <h4>Working Hours</h4>
+                                <p>Mon - Sat: 09:00 AM - 07:00 PM<br>Sunday: Closed</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Contact Form Card -->
+                    <div class="contact-form-card glass-card" id="contact-form-wrapper">
+                        <h2>Send a Message</h2>
+                        <p>Write your inquiries or complaints below. We will get back to your email within 24 hours.</p>
+                        
+                        <form id="contact-us-form">
+                            <div class="contact-form-grid">
+                                <div class="form-group">
+                                    <label class="form-label" for="contact-name">Full Name</label>
+                                    <input type="text" id="contact-name" class="form-input" placeholder="Your name" required>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label" for="contact-phone">Mobile Number</label>
+                                    <input type="tel" id="contact-phone" class="form-input" placeholder="+91 XXXXX XXXXX" required>
+                                </div>
+                                <div class="form-group full-width">
+                                    <label class="form-label" for="contact-email">Email Address</label>
+                                    <input type="email" id="contact-email" class="form-input" placeholder="yourname@gmail.com" required>
+                                </div>
+                                <div class="form-group full-width">
+                                    <label class="form-label" for="contact-subject">Subject</label>
+                                    <input type="text" id="contact-subject" class="form-input" placeholder="e.g. List my property, Query about flat..." required>
+                                </div>
+                                <div class="form-group full-width">
+                                    <label class="form-label" for="contact-message">Your Message</label>
+                                    <textarea id="contact-message" class="form-textarea" placeholder="Type details here..." required></textarea>
+                                </div>
+                            </div>
+                            <button type="submit" class="btn btn-primary" style="padding: 12px 36px;">
+                                Send Message <i class="fa-solid fa-paper-plane"></i>
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        
+        <!-- PAGE 7: ADMIN PANEL -->
+        <section id="admin-section" class="page-section admin-section">
+            <div class="container">
+                <div class="admin-header-title" id="admin-panel-top">
+                    <div>
+                        <span class="section-tag">Staff Dashboard</span>
+                        <h1>Admin Management Panel</h1>
+                    </div>
+                    <div style="font-size: 0.9rem; font-weight: 600; color: var(--neutral-600);">
+                        <i class="fa-solid fa-circle" style="color: var(--success); font-size: 0.65rem;"></i> Active Session
+                    </div>
+                </div>
+
+                <div class="admin-layout">
+                    <!-- Admin Sidebar -->
+                    <aside class="admin-sidebar glass-card" id="admin-tab-sidebar">
+                        <div class="admin-menu">
+                            <button class="admin-menu-btn active" data-tab="admin-dashboard-pane">
+                                <i class="fa-solid fa-chart-pie"></i> Overview
+                            </button>
+                            <button class="admin-menu-btn" data-tab="admin-flats-pane" id="admin-flats-tab-btn">
+                                <i class="fa-solid fa-building"></i> Manage Flats
+                            </button>
+                            <button class="admin-menu-btn" data-tab="admin-pgs-pane" id="admin-pgs-tab-btn">
+                                <i class="fa-solid fa-bed"></i> Manage PGs
+                            </button>
+                            <button class="admin-menu-btn" data-tab="admin-bookings-pane" id="admin-bookings-tab-btn">
+                                <i class="fa-solid fa-calendar-check"></i> Bookings
+                                <span class="status-badge status-pending" id="booking-badge-count" style="display: none; padding: 2px 6px; float: right;">0</span>
+                            </button>
+                            <button class="admin-menu-btn" data-tab="admin-inbox-pane" id="admin-inbox-tab-btn">
+                                <i class="fa-solid fa-inbox"></i> Inbox
+                                <span class="status-badge status-unread" id="inbox-badge-count" style="display: none; padding: 2px 6px; float: right;">0</span>
+                            </button>
+                        </div>
+                    </aside>
+
+                    <!-- Admin Main Content Window -->
+                    <div class="admin-content-area" id="admin-main-window">
+                        
+                        <!-- TAB 1: OVERVIEW -->
+                        <div id="admin-dashboard-pane" class="admin-content-pane active">
+                            <div class="admin-stats-grid">
+                                <div class="admin-stat-card glass-card">
+                                    <div class="stat-icon"><i class="fa-solid fa-building"></i></div>
+                                    <div class="stat-info">
+                                        <h4>Total Flats</h4>
+                                        <div class="stat-number" id="stat-total-flats">0</div>
+                                    </div>
+                                </div>
+                                <div class="admin-stat-card glass-card">
+                                    <div class="stat-icon"><i class="fa-solid fa-bed"></i></div>
+                                    <div class="stat-info">
+                                        <h4>Total PGs</h4>
+                                        <div class="stat-number" id="stat-total-pgs">0</div>
+                                    </div>
+                                </div>
+                                <div class="admin-stat-card glass-card">
+                                    <div class="stat-icon"><i class="fa-solid fa-calendar-check"></i></div>
+                                    <div class="stat-info">
+                                        <h4>Bookings</h4>
+                                        <div class="stat-number" id="stat-total-bookings">0</div>
+                                    </div>
+                                </div>
+                                <div class="admin-stat-card glass-card">
+                                    <div class="stat-icon"><i class="fa-solid fa-envelope"></i></div>
+                                    <div class="stat-info">
+                                        <h4>Inquiries</h4>
+                                        <div class="stat-number" id="stat-total-inbox">0</div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 24px;">
+                                <!-- Recent Bookings Card -->
+                                <div class="glass-card" style="padding: 24px;">
+                                    <h3 style="font-size: 1.15rem; margin-bottom: 16px; display: flex; justify-content: space-between;">
+                                        <span><i class="fa-solid fa-clock-rotate-left"></i> Recent Bookings</span>
+                                        <a href="#" onclick="admin.changeTab('admin-bookings-pane')" style="font-size: 0.8rem; color: var(--accent);">View All</a>
+                                    </h3>
+                                    <div class="admin-table-container" style="margin-top: 0; border: none;">
+                                        <table class="admin-table" id="dashboard-recent-bookings-table">
+                                            <thead>
+                                                <tr>
+                                                    <th>Customer</th>
+                                                    <th>Service</th>
+                                                    <th>Date</th>
+                                                    <th>Status</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <!-- Dynamic rows -->
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+
+                                <!-- Recent Messages Card -->
+                                <div class="glass-card" style="padding: 24px;">
+                                    <h3 style="font-size: 1.15rem; margin-bottom: 16px; display: flex; justify-content: space-between;">
+                                        <span><i class="fa-solid fa-envelope-open-text"></i> Recent Inquiries</span>
+                                        <a href="#" onclick="admin.changeTab('admin-inbox-pane')" style="font-size: 0.8rem; color: var(--accent);">View All</a>
+                                    </h3>
+                                    <div class="admin-table-container" style="margin-top: 0; border: none;">
+                                        <table class="admin-table" id="dashboard-recent-inbox-table">
+                                            <thead>
+                                                <tr>
+                                                    <th>Sender</th>
+                                                    <th>Subject</th>
+                                                    <th>Action</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <!-- Dynamic rows -->
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- TAB 2: MANAGE FLATS -->
+                        <div id="admin-flats-pane" class="admin-content-pane">
+                            <div class="panel-header">
+                                <h2>Flats Inventory</h2>
+                                <button class="btn btn-primary" onclick="admin.showAddFlatForm()">
+                                    <i class="fa-solid fa-plus"></i> Add New Flat
+                                </button>
+                            </div>
+
+                            <!-- Flat Creation Form (Hidden by default) -->
+                            <div class="glass-card admin-form-card" id="add-flat-form-container" style="display: none; margin-bottom: 24px;">
+                                <h3 id="flat-form-title">Add Flat Listing</h3>
+                                <form id="admin-add-flat-form" style="margin-top: 16px;">
+                                    <input type="hidden" id="edit-flat-id">
+                                    <div class="admin-form-grid">
+                                        <div class="form-group">
+                                            <label class="form-label" for="flat-title-in">Property Title / Name</label>
+                                            <input type="text" id="flat-title-in" class="form-input" placeholder="e.g. Modern 2 BHK Flat in Buxar" required>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="form-label" for="flat-location-in">Location (Area, City)</label>
+                                            <input type="text" id="flat-location-in" class="form-input" placeholder="e.g. Near Market, Buxar" required>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="form-label" for="flat-rent-in">Monthly Rent (₹)</label>
+                                            <input type="number" id="flat-rent-in" class="form-input" placeholder="12000" required>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="form-label" for="flat-area-in">Area (Sq Ft)</label>
+                                            <input type="number" id="flat-area-in" class="form-input" placeholder="900" required>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="form-label" for="flat-bhk-in">BHK Type</label>
+                                            <select id="flat-bhk-in" class="form-select" required>
+                                                <option value="1 BHK">1 BHK</option>
+                                                <option value="2 BHK">2 BHK</option>
+                                                <option value="3 BHK">3 BHK</option>
+                                                <option value="4 BHK">4 BHK</option>
+                                            </select>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="form-label" for="flat-furnishing-in">Furnishing Status</label>
+                                            <select id="flat-furnishing-in" class="form-select" required>
+                                                <option value="Fully Furnished">Fully Furnished</option>
+                                                <option value="Semi Furnished">Semi Furnished</option>
+                                                <option value="Unfurnished">Unfurnished</option>
+                                            </select>
+                                        </div>
+                                        <div class="form-group full-width">
+                                            <label class="form-label" for="flat-image-in">Image URL (paste online URL or use default)</label>
+                                            <input type="text" id="flat-image-in" class="form-input" placeholder="e.g. images/flat_1.png (or empty for default)">
+                                        </div>
+                                        <div class="form-group full-width">
+                                            <label class="form-label" for="flat-amenities-in">Amenities (Comma separated)</label>
+                                            <input type="text" id="flat-amenities-in" class="form-input" placeholder="WiFi, Parking Available, Water Backup, CCTV Security, Balcony">
+                                        </div>
+                                        <div class="form-group full-width">
+                                            <label class="form-label" for="flat-desc-in">Property Description</label>
+                                            <textarea id="flat-desc-in" class="form-textarea" placeholder="Provide description about distance to market, school, neighborhood details..." required></textarea>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="checkbox-label" style="margin-top: 10px;">
+                                                <input type="checkbox" id="flat-avail-in" checked> Listing is Available
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="form-actions-admin">
+                                        <button type="button" class="btn btn-secondary" onclick="admin.hideAddFlatForm()">Cancel</button>
+                                        <button type="submit" class="btn btn-primary">Save Flat Listing</button>
+                                    </div>
+                                </form>
+                            </div>
+
+                            <div class="admin-table-container">
+                                <table class="admin-table" id="admin-flats-table">
+                                    <thead>
+                                        <tr>
+                                            <th>Image</th>
+                                            <th>Title</th>
+                                            <th>Location</th>
+                                            <th>Rent</th>
+                                            <th>Type</th>
+                                            <th>Availability</th>
+                                            <th>Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <!-- Dynamic items -->
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                        <!-- TAB 3: MANAGE PGS -->
+                        <div id="admin-pgs-pane" class="admin-content-pane">
+                            <div class="panel-header">
+                                <h2>PG Accommodations Inventory</h2>
+                                <button class="btn btn-primary" onclick="admin.showAddPGForm()">
+                                    <i class="fa-solid fa-plus"></i> Add New PG
+                                </button>
+                            </div>
+
+                            <!-- PG Creation Form (Hidden by default) -->
+                            <div class="glass-card admin-form-card" id="add-pg-form-container" style="display: none; margin-bottom: 24px;">
+                                <h3 id="pg-form-title">Add PG Listing</h3>
+                                <form id="admin-add-pg-form" style="margin-top: 16px;">
+                                    <input type="hidden" id="edit-pg-id">
+                                    <div class="admin-form-grid">
+                                        <div class="form-group">
+                                            <label class="form-label" for="pg-name-in">PG Hostel Name</label>
+                                            <input type="text" id="pg-name-in" class="form-input" placeholder="e.g. Royal Nest Boys PG" required>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="form-label" for="pg-location-in">Location (Area, City)</label>
+                                            <input type="text" id="pg-location-in" class="form-input" placeholder="e.g. Anand Nagar, Patna" required>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="form-label" for="pg-rent-in">Monthly Rent (₹)</label>
+                                            <input type="number" id="pg-rent-in" class="form-input" placeholder="6500" required>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="form-label" for="pg-gender-in">Gender Preference</label>
+                                            <select id="pg-gender-in" class="form-select" required>
+                                                <option value="Male">Male</option>
+                                                <option value="Female">Female</option>
+                                                <option value="Unisex">Unisex</option>
+                                            </select>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="form-label" for="pg-occupancy-in">Occupancy Type</label>
+                                            <select id="pg-occupancy-in" class="form-select" required>
+                                                <option value="Single Sharing">Single Sharing</option>
+                                                <option value="Double Sharing">Double Sharing</option>
+                                                <option value="Triple Sharing">Triple Sharing</option>
+                                            </select>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="form-label" style="margin-top: 10px; display: inline-flex; align-items: center; gap: 8px;">
+                                                <input type="checkbox" id="pg-food-in" checked> Food/Meals Included
+                                            </label>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="form-label" for="pg-ac-in">Air Conditioning</label>
+                                            <select id="pg-ac-in" class="form-select" required>
+                                                <option value="AC">AC</option>
+                                                <option value="Non-AC">Non-AC</option>
+                                            </select>
+                                        </div>
+                                        <div class="form-group full-width">
+                                            <label class="form-label" for="pg-image-in">Image URL (paste online URL or use default)</label>
+                                            <input type="text" id="pg-image-in" class="form-input" placeholder="e.g. images/pg_1.png (or empty for default)">
+                                        </div>
+                                        <div class="form-group full-width">
+                                            <label class="form-label" for="pg-facilities-in">Facilities (Comma separated)</label>
+                                            <input type="text" id="pg-facilities-in" class="form-input" placeholder="WiFi, Food, Laundry, Security, Power Backup, Gym">
+                                        </div>
+                                        <div class="form-group full-width">
+                                            <label class="form-label" for="pg-desc-in">PG Description</label>
+                                            <textarea id="pg-desc-in" class="form-textarea" placeholder="Provide PG features, proximity to colleges, metro/bus stop, details about roommates..." required></textarea>
+                                        </div>
+                                    </div>
+                                    <div class="form-actions-admin">
+                                        <button type="button" class="btn btn-secondary" onclick="admin.hideAddPGForm()">Cancel</button>
+                                        <button type="submit" class="btn btn-primary">Save PG Listing</button>
+                                    </div>
+                                </form>
+                            </div>
+
+                            <div class="admin-table-container">
+                                <table class="admin-table" id="admin-pgs-table">
+                                    <thead>
+                                        <tr>
+                                            <th>Image</th>
+                                            <th>PG Name</th>
+                                            <th>Location</th>
+                                            <th>Rent</th>
+                                            <th>Target Gender</th>
+                                            <th>Occupancy</th>
+                                            <th>Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <!-- Dynamic items -->
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                        <!-- TAB 4: SERVICE BOOKINGS LOG -->
+                        <div id="admin-bookings-pane" class="admin-content-pane">
+                            <h2>Service Booking Requests</h2>
+                            
+                            <div class="admin-table-container">
+                                <table class="admin-table" id="admin-bookings-table">
+                                    <thead>
+                                        <tr>
+                                            <th>Customer</th>
+                                            <th>Contact Details</th>
+                                            <th>Service</th>
+                                            <th>Booked Date</th>
+                                            <th>Details</th>
+                                            <th>Status</th>
+                                            <th>Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <!-- Dynamic entries -->
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                        <!-- TAB 5: CONTACT INBOX -->
+                        <div id="admin-inbox-pane" class="admin-content-pane">
+                            <h2>Contact Inquiries Inbox</h2>
+                            
+                            <div class="admin-table-container">
+                                <table class="admin-table" id="admin-inbox-table">
+                                    <thead>
+                                        <tr>
+                                            <th>Sender Name</th>
+                                            <th>Contact Info</th>
+                                            <th>Subject</th>
+                                            <th>Message</th>
+                                            <th>Status</th>
+                                            <th>Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <!-- Dynamic entries -->
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- FOOTER SECTION -->
+    <footer class="main-footer" id="footer-section">
+        <div class="container footer-grid">
+            <div class="footer-col footer-about">
+                <h3>Rental<span>RealEstate</span></h3>
+                <p>We are a customer-centric real estate portal committed to offering direct flat rentals, PG sharing accommodations, and high-quality utility home services in your town.</p>
+                <div class="social-links">
+                    <a href="#" class="social-btn" aria-label="Facebook"><i class="fa-brands fa-facebook-f"></i></a>
+                    <a href="#" class="social-btn" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
+                    <a href="https://wa.me/917730001446" class="social-btn" aria-label="WhatsApp" target="_blank"><i class="fa-brands fa-whatsapp"></i></a>
+                </div>
+            </div>
+
+            <div class="footer-col">
+                <h4>Quick Links</h4>
+                <ul class="footer-links">
+                    <li><a href="#" onclick="app.navigateTo('home-section')">Home</a></li>
+                    <li><a href="#" onclick="app.navigateTo('flats-section')">Flats for Rent</a></li>
+                    <li><a href="#" onclick="app.navigateTo('pgs-section')">PG Accommodations</a></li>
+                    <li><a href="#" onclick="app.navigateTo('services-section')">Home Services</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-col">
+                <h4>Support</h4>
+                <ul class="footer-links">
+                    <li><a href="#" onclick="app.navigateTo('about-section')">About Us</a></li>
+                    <li><a href="#" onclick="app.navigateTo('contact-section')">Contact Us</a></li>
+                    <li><a href="#" onclick="app.navigateTo('admin-section')">Admin Dashboard</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-col">
+                <h4>Contact Info</h4>
+                <ul class="footer-contact">
+                    <li>
+                        <i class="fa-solid fa-phone"></i>
+                        <span><a href="tel:+917730001446">+91 77300 01446</a></span>
+                    </li>
+                    <li>
+                        <i class="fa-solid fa-envelope"></i>
+                        <span><a href="mailto:vishalsadu2007@gmail.com">vishalsadu2007@gmail.com</a></span>
+                    </li>
+                    <li>
+                        <i class="fa-solid fa-location-dot"></i>
+                        <span>Rental Real Estate Office, Near Railway Station Road, Buxar, Bihar, India - 802101</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="container footer-bottom">
+            <p>&copy; 2026 Rental Real Estate. All rights reserved. Managed by Vishal Sadu.</p>
+        </div>
+    </footer>
+
+    <!-- DYNAMIC PROPERTY DETAIL MODAL -->
+    <div class="modal-overlay" id="property-detail-modal">
+        <div class="modal-container">
+            <button class="modal-close-btn" id="modal-close-trigger" aria-label="Close details modal">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+            <div class="modal-img-container">
+                <img id="modal-image" src="images/flat_1.png" alt="Property Detail Image">
+            </div>
+            <div class="modal-body">
+                <div class="modal-subtitle">
+                    <span class="tag-badge avail" id="modal-avail-badge">Available</span>
+                    <span id="modal-type-badge" style="font-weight:700; color:var(--neutral-600);">2 BHK Flat</span>
+                </div>
+                <h2 class="modal-title" id="modal-title">Luxury 2 BHK Apartment in Buxar</h2>
+                <div class="property-location" style="font-size:1rem;" id="modal-location">
+                    <i class="fa-solid fa-location-dot"></i> Near Market, Buxar
+                </div>
+                
+                <h3 class="property-price" style="font-size:1.8rem; margin:16px 0 8px;" id="modal-rent">₹12,000 / month</h3>
+                
+                <h4 class="modal-desc-heading">About this listing</h4>
+                <p class="modal-desc" id="modal-desc">Detailed listing descriptions appear here.</p>
+                
+                <h4 class="modal-section-title">Amenities & Facilities</h4>
+                <div class="modal-amenities-grid" id="modal-amenities-container">
+                    <!-- Dynamic tags -->
+                </div>
+                
+                <div class="modal-contact-box" id="modal-contact-container">
+                    <div class="modal-contact-left">
+                        <h4>Contact Property Owner</h4>
+                        <p>Discuss lease terms, security deposits and schedule virtual inspections.</p>
+                    </div>
+                    <a href="https://wa.me/917730001446" class="btn btn-contact" id="modal-whatsapp-btn" target="_blank">
+                        <i class="fa-brands fa-whatsapp"></i> Chat on WhatsApp
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- FLOATING WHATSAPP BUTTON -->
+    <a href="https://wa.me/917730001446?text=Hello%21+I+am+interested+in+renting+a+property+or+booking+a+home+service." class="whatsapp-floating" id="global-whatsapp-floating" target="_blank" aria-label="Chat with us on WhatsApp">
+        <i class="fa-brands fa-whatsapp"></i>
+    </a>
+
+    <!-- TOAST CONTAINER FOR ALERTS -->
+    <div class="toast-container" id="toast-notifications-container"></div>
+
+    <!-- Core App Logics -->
+    <script src="app.js"></script>
+    <!-- Admin Management Logic -->
+    <script src="admin.js"></script>
+</body>
+</html>
