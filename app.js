@@ -332,6 +332,9 @@ class RealEstateApp {
                         <a href="${whatsappUrl}" class="btn btn-contact" target="_blank">
                             <i class="fa-solid fa-comment-dots"></i> Contact Owner
                         </a>
+                        <a href="${this.buildShareUrl(flat, 'flat')}" class="btn btn-whatsapp-share" target="_blank" title="Share this flat with friends">
+                            <i class="fa-brands fa-whatsapp"></i> Share
+                        </a>
                     </div>
                 </div>
             `;
@@ -491,6 +494,9 @@ class RealEstateApp {
                         </button>
                         <a href="${whatsappUrl}" class="btn btn-contact" target="_blank">
                             <i class="fa-solid fa-comment-dots"></i> Contact Owner
+                        </a>
+                        <a href="${this.buildShareUrl(pg, 'pg')}" class="btn btn-whatsapp-share" target="_blank" title="Share this PG with friends">
+                            <i class="fa-brands fa-whatsapp"></i> Share
                         </a>
                     </div>
                 </div>
@@ -673,6 +679,12 @@ class RealEstateApp {
         }
         whatsappBtn.href = `https://wa.me/${this.whatsappNumber}?text=${encodeURIComponent(queryText)}`;
 
+        // Share Button in Modal
+        const modalShareBtn = document.getElementById("modal-share-btn");
+        if (modalShareBtn) {
+            modalShareBtn.href = this.buildShareUrl(item, type);
+        }
+
         // Open Modal
         modal.classList.add("active");
     }
@@ -693,6 +705,20 @@ class RealEstateApp {
         if (lower.includes("lift") || lower.includes("elevator")) return '<i class="fa-solid fa-elevator"></i>';
         if (lower.includes("balcony")) return '<i class="fa-solid fa-mountain-sun"></i>';
         return '<i class="fa-solid fa-circle-check"></i>';
+    }
+
+    buildShareUrl(item, type) {
+        const siteUrl = window.location.href.split('#')[0];
+        const section = type === 'flat' ? 'flats' : 'pgs';
+        const name = item.title || item.name;
+        let details = "";
+        if (type === 'flat') {
+            details = `🏠 *${name}*\n📍 Location: ${item.location}\n💰 Rent: ₹${item.rent.toLocaleString('en-IN')}/month\n🛏️ ${item.bhk} | 📐 ${item.area} sqft | 🛋️ ${item.furnishing}\n✅ ${item.amenities.slice(0,4).join(' | ')}`;
+        } else {
+            details = `🏡 *${name}*\n📍 Location: ${item.location}\n💰 Rent: ₹${item.rent.toLocaleString('en-IN')}/month\n👥 ${item.occupancy} | ❄️ ${item.ac} | 🍽️ ${item.food ? 'Meals Included' : 'Self Kitchen'}\n✅ ${item.facilities.slice(0,4).join(' | ')}`;
+        }
+        const fullMsg = `${details}\n\n🔗 View more listings: ${siteUrl}#${section}`;
+        return `https://wa.me/?text=${encodeURIComponent(fullMsg)}`;
     }
 
     // ==========================================================================

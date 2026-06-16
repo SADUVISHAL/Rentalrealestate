@@ -10,7 +10,7 @@ class AdminPanel {
 
     init() {
         if (!window.app) return;
-        
+
         // Setup Tab Menu Clicks
         this.initTabMenu();
 
@@ -19,7 +19,7 @@ class AdminPanel {
 
         // Renders
         this.refreshDashboardData();
-        
+
         this.isInitialized = true;
     }
 
@@ -180,7 +180,7 @@ class AdminPanel {
     renderFlatsTable() {
         const table = document.getElementById("admin-flats-table");
         if (!table) return;
-        
+
         const tbody = table.querySelector("tbody");
         tbody.innerHTML = "";
 
@@ -221,7 +221,7 @@ class AdminPanel {
         document.getElementById("flat-form-title").textContent = "Add Flat Listing";
         document.getElementById("admin-add-flat-form").reset();
         document.getElementById("edit-flat-id").value = "";
-        
+
         document.getElementById("add-flat-form-container").scrollIntoView({ behavior: "smooth" });
     }
 
@@ -237,7 +237,7 @@ class AdminPanel {
 
         document.getElementById("add-flat-form-container").style.display = "block";
         document.getElementById("flat-form-title").textContent = "Edit Flat Listing";
-        
+
         // Populate inputs
         document.getElementById("edit-flat-id").value = flat.id;
         document.getElementById("flat-title-in").value = flat.title;
@@ -270,7 +270,7 @@ class AdminPanel {
     renderPGsTable() {
         const table = document.getElementById("admin-pgs-table");
         if (!table) return;
-        
+
         const tbody = table.querySelector("tbody");
         tbody.innerHTML = "";
 
@@ -391,10 +391,10 @@ class AdminPanel {
         const bhk = document.getElementById("flat-bhk-in").value;
         const furnishing = document.getElementById("flat-furnishing-in").value;
         const image = document.getElementById("flat-image-in").value.trim() || "images/flat_1.png";
-        
+
         const amenitiesInput = document.getElementById("flat-amenities-in").value;
         const amenities = amenitiesInput ? amenitiesInput.split(",").map(a => a.trim()).filter(a => a) : ["WiFi"];
-        
+
         const desc = document.getElementById("flat-desc-in").value.trim();
         const available = document.getElementById("flat-avail-in").checked;
 
@@ -480,7 +480,7 @@ class AdminPanel {
         window.app.bookings.forEach(bk => {
             const row = document.createElement("tr");
             const statusClass = bk.status.toLowerCase().replace(" ", "");
-            
+
             row.innerHTML = `
                 <td><strong>${bk.name}</strong></td>
                 <td>
@@ -546,7 +546,7 @@ class AdminPanel {
         window.app.inbox.forEach(msg => {
             const row = document.createElement("tr");
             const statusClass = msg.status.toLowerCase();
-            
+
             row.innerHTML = `
                 <td><strong>${msg.name}</strong></td>
                 <td>
