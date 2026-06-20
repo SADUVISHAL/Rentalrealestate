@@ -241,12 +241,12 @@ class AdminPanel {
         // Populate inputs
         document.getElementById("edit-flat-id").value = flat.id;
         document.getElementById("flat-title-in").value = flat.title;
-        document.getElementById("flat-location-in").value = flat.location;
+        document.getElementById("flat-location-in").value = "Sanskruthi Township";
         document.getElementById("flat-rent-in").value = flat.rent;
         document.getElementById("flat-area-in").value = flat.area;
         document.getElementById("flat-bhk-in").value = flat.bhk;
         document.getElementById("flat-furnishing-in").value = flat.furnishing;
-        document.getElementById("flat-image-in").value = flat.image || "";
+        document.getElementById("flat-image-in").value = (flat.images && Array.isArray(flat.images)) ? flat.images.join(", ") : (flat.image || "");
         document.getElementById("flat-amenities-in").value = flat.amenities.join(", ");
         document.getElementById("flat-desc-in").value = flat.desc;
         document.getElementById("flat-avail-in").checked = flat.available;
@@ -328,13 +328,13 @@ class AdminPanel {
         // Populate inputs
         document.getElementById("edit-pg-id").value = pg.id;
         document.getElementById("pg-name-in").value = pg.name;
-        document.getElementById("pg-location-in").value = pg.location;
+        document.getElementById("pg-location-in").value = "Sanskruthi Township";
         document.getElementById("pg-rent-in").value = pg.rent;
         document.getElementById("pg-gender-in").value = pg.gender;
         document.getElementById("pg-occupancy-in").value = pg.occupancy;
         document.getElementById("pg-food-in").checked = pg.food;
         document.getElementById("pg-ac-in").value = pg.ac;
-        document.getElementById("pg-image-in").value = pg.image || "";
+        document.getElementById("pg-image-in").value = (pg.images && Array.isArray(pg.images)) ? pg.images.join(", ") : (pg.image || "");
         document.getElementById("pg-facilities-in").value = pg.facilities.join(", ");
         document.getElementById("pg-desc-in").value = pg.desc;
 
@@ -385,12 +385,15 @@ class AdminPanel {
     saveFlatData() {
         const flatId = document.getElementById("edit-flat-id").value;
         const title = document.getElementById("flat-title-in").value.trim();
-        const location = document.getElementById("flat-location-in").value.trim();
+        const location = "Sanskruthi Township";
         const rent = parseInt(document.getElementById("flat-rent-in").value);
         const area = parseInt(document.getElementById("flat-area-in").value);
         const bhk = document.getElementById("flat-bhk-in").value;
         const furnishing = document.getElementById("flat-furnishing-in").value;
-        const image = document.getElementById("flat-image-in").value.trim() || "images/flat_1.png";
+        
+        const imageInputVal = document.getElementById("flat-image-in").value.trim();
+        const images = imageInputVal ? imageInputVal.split(",").map(i => i.trim()).filter(i => i) : ["images/flat_1.png"];
+        const image = images[0] || "images/flat_1.png";
 
         const amenitiesInput = document.getElementById("flat-amenities-in").value;
         const amenities = amenitiesInput ? amenitiesInput.split(",").map(a => a.trim()).filter(a => a) : ["WiFi"];
@@ -402,7 +405,7 @@ class AdminPanel {
             // EDIT MODE
             const idx = window.app.flats.findIndex(f => f.id === flatId);
             if (idx > -1) {
-                window.app.flats[idx] = { id: flatId, title, location, rent, area, bhk, furnishing, image, available, amenities, desc };
+                window.app.flats[idx] = { id: flatId, title, location, rent, area, bhk, furnishing, image, images, available, amenities, desc };
                 window.app.saveData("flats", window.app.flats);
                 window.app.showToast("Flat Listing updated successfully!", "success");
             }
@@ -410,7 +413,7 @@ class AdminPanel {
             // ADD MODE
             const newFlat = {
                 id: `flat-${Date.now()}`,
-                title, location, rent, area, bhk, furnishing, image, available, amenities, desc
+                title, location, rent, area, bhk, furnishing, image, images, available, amenities, desc
             };
             const updated = [...window.app.flats, newFlat];
             window.app.saveData("flats", updated);
@@ -425,13 +428,16 @@ class AdminPanel {
     savePGData() {
         const pgId = document.getElementById("edit-pg-id").value;
         const name = document.getElementById("pg-name-in").value.trim();
-        const location = document.getElementById("pg-location-in").value.trim();
+        const location = "Sanskruthi Township";
         const rent = parseInt(document.getElementById("pg-rent-in").value);
         const gender = document.getElementById("pg-gender-in").value;
         const occupancy = document.getElementById("pg-occupancy-in").value;
         const food = document.getElementById("pg-food-in").checked;
         const ac = document.getElementById("pg-ac-in").value;
-        const image = document.getElementById("pg-image-in").value.trim() || "images/pg_1.png";
+
+        const imageInputVal = document.getElementById("pg-image-in").value.trim();
+        const images = imageInputVal ? imageInputVal.split(",").map(i => i.trim()).filter(i => i) : ["images/pg_1.png"];
+        const image = images[0] || "images/pg_1.png";
 
         const facilitiesInput = document.getElementById("pg-facilities-in").value;
         const facilities = facilitiesInput ? facilitiesInput.split(",").map(f => f.trim()).filter(f => f) : ["WiFi", "Laundry"];
@@ -442,7 +448,7 @@ class AdminPanel {
             // EDIT MODE
             const idx = window.app.pgs.findIndex(p => p.id === pgId);
             if (idx > -1) {
-                window.app.pgs[idx] = { id: pgId, name, location, rent, gender, occupancy, food, ac, image, facilities, desc };
+                window.app.pgs[idx] = { id: pgId, name, location, rent, gender, occupancy, food, ac, image, images, facilities, desc };
                 window.app.saveData("pgs", window.app.pgs);
                 window.app.showToast("PG Listing updated successfully!", "success");
             }
@@ -450,7 +456,7 @@ class AdminPanel {
             // ADD MODE
             const newPG = {
                 id: `pg-${Date.now()}`,
-                name, location, rent, gender, occupancy, food, ac, image, facilities, desc
+                name, location, rent, gender, occupancy, food, ac, image, images, facilities, desc
             };
             const updated = [...window.app.pgs, newPG];
             window.app.saveData("pgs", updated);
