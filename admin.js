@@ -241,7 +241,7 @@ class AdminPanel {
         // Populate inputs
         document.getElementById("edit-flat-id").value = flat.id;
         document.getElementById("flat-title-in").value = flat.title;
-        document.getElementById("flat-location-in").value = "Sanskruthi Township";
+        document.getElementById("flat-location-in").value = "Singapur Township, Pocharam";
         document.getElementById("flat-rent-in").value = flat.rent;
         document.getElementById("flat-area-in").value = flat.area;
         document.getElementById("flat-bhk-in").value = flat.bhk;
@@ -328,7 +328,7 @@ class AdminPanel {
         // Populate inputs
         document.getElementById("edit-pg-id").value = pg.id;
         document.getElementById("pg-name-in").value = pg.name;
-        document.getElementById("pg-location-in").value = "Sanskruthi Township";
+        document.getElementById("pg-location-in").value = "Singapur Township, Pocharam";
         document.getElementById("pg-rent-in").value = pg.rent;
         document.getElementById("pg-gender-in").value = pg.gender;
         document.getElementById("pg-occupancy-in").value = pg.occupancy;
@@ -385,7 +385,7 @@ class AdminPanel {
     saveFlatData() {
         const flatId = document.getElementById("edit-flat-id").value;
         const title = document.getElementById("flat-title-in").value.trim();
-        const location = "Sanskruthi Township";
+        const location = "Singapur Township, Pocharam";
         const rent = parseInt(document.getElementById("flat-rent-in").value);
         const area = parseInt(document.getElementById("flat-area-in").value);
         const bhk = document.getElementById("flat-bhk-in").value;
@@ -428,7 +428,7 @@ class AdminPanel {
     savePGData() {
         const pgId = document.getElementById("edit-pg-id").value;
         const name = document.getElementById("pg-name-in").value.trim();
-        const location = "Sanskruthi Township";
+        const location = "Singapur Township, Pocharam";
         const rent = parseInt(document.getElementById("pg-rent-in").value);
         const gender = document.getElementById("pg-gender-in").value;
         const occupancy = document.getElementById("pg-occupancy-in").value;

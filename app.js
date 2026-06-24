@@ -6,8 +6,8 @@
 const defaultFlats = [
     {
         id: "flat-101",
-        title: "Modern 2 BHK Flat in Sanskruthi Township",
-        location: "Sanskruthi Township",
+        title: "Modern 2 BHK Flat in Singapur Township, Pocharam",
+        location: "Singapur Township, Pocharam",
         rent: 12000,
         bhk: "2 BHK",
         area: 900,
@@ -20,8 +20,8 @@ const defaultFlats = [
     },
     {
         id: "flat-102",
-        title: "Cozy 1 BHK Apartment in Sanskruthi Township",
-        location: "Sanskruthi Township",
+        title: "Cozy 1 BHK Apartment in Singapur Township, Pocharam",
+        location: "Singapur Township, Pocharam",
         rent: 8000,
         bhk: "1 BHK",
         area: 550,
@@ -34,8 +34,8 @@ const defaultFlats = [
     },
     {
         id: "flat-103",
-        title: "Premium 3 BHK Luxury Flat in Sanskruthi Township",
-        location: "Sanskruthi Township",
+        title: "Premium 3 BHK Luxury Flat in Singapur Township, Pocharam",
+        location: "Singapur Township, Pocharam",
         rent: 35000,
         bhk: "3 BHK",
         area: 1600,
@@ -52,7 +52,7 @@ const defaultPGs = [
     {
         id: "pg-201",
         name: "Royal Nest Boys PG",
-        location: "Sanskruthi Township",
+        location: "Singapur Township, Pocharam",
         rent: 6500,
         gender: "Male",
         occupancy: "Double Sharing",
@@ -66,7 +66,7 @@ const defaultPGs = [
     {
         id: "pg-202",
         name: "Comfort Stays Girls PG",
-        location: "Sanskruthi Township",
+        location: "Singapur Township, Pocharam",
         rent: 8500,
         gender: "Female",
         occupancy: "Single Sharing",
@@ -80,7 +80,7 @@ const defaultPGs = [
     {
         id: "pg-203",
         name: "Elite Co-living Unisex PG",
-        location: "Sanskruthi Township",
+        location: "Singapur Township, Pocharam",
         rent: 7000,
         gender: "Unisex",
         occupancy: "Double Sharing",
@@ -101,6 +101,7 @@ class RealEstateApp {
         this.inbox = [];
         this.activeSection = "home-section";
         this.whatsappNumber = "917730001446";
+        this.cardImageIndices = {};
 
         this.init();
     }
@@ -141,7 +142,7 @@ class RealEstateApp {
         }
         // Migration: Ensure location is fixed and images array exists
         this.flats = this.flats.map(flat => {
-            flat.location = "Sanskruthi Township";
+            flat.location = "Singapur Township, Pocharam";
             if (!flat.images || !Array.isArray(flat.images)) {
                 flat.images = [flat.image || "images/flat_1.png"];
             }
@@ -158,7 +159,7 @@ class RealEstateApp {
         }
         // Migration: Ensure location is fixed and images array exists
         this.pgs = this.pgs.map(pg => {
-            pg.location = "Sanskruthi Township";
+            pg.location = "Singapur Township, Pocharam";
             if (!pg.images || !Array.isArray(pg.images)) {
                 pg.images = [pg.image || "images/pg_1.png"];
             }
@@ -334,12 +335,44 @@ class RealEstateApp {
             const remainingAmenities = flat.amenities.length > 3 ? `<span class="amenity-tag">+${flat.amenities.length - 3} more</span>` : "";
 
             // Dynamic WhatsApp URL
-            const whatsappText = encodeURIComponent(`Hello, I'm interested in renting your flat: ${flat.title} located at Sanskruthi Township. Monthly Rent: ₹${flat.rent}. Please provide more details.`);
+            const whatsappText = encodeURIComponent(`Hello, I'm interested in renting your flat: ${flat.title} located at Singapur Township, Pocharam. Monthly Rent: ₹${flat.rent}. Please provide more details.`);
             const whatsappUrl = `https://wa.me/${this.whatsappNumber}?text=${whatsappText}`;
 
+            const defaultImage = 'images/flat_1.png';
+            const flatImages = flat.images && flat.images.length > 0 ? flat.images : [flat.image || defaultImage];
+            const activeImageIdx = this.cardImageIndices[flat.id] || 0;
+            const currentImg = flatImages[activeImageIdx] || defaultImage;
+
+            // Generate dots HTML
+            let dotsHTML = '';
+            if (flatImages.length > 1) {
+                dotsHTML = `
+                    <div class="card-slider-dots">
+                        ${flatImages.map((_, idx) => `
+                            <span class="card-slider-dot ${idx === activeImageIdx ? 'active' : ''}" 
+                                  onclick="event.stopPropagation(); app.setCardImage('flat', '${flat.id}', ${idx})">
+                            </span>
+                        `).join("")}
+                    </div>
+                `;
+            }
+
+            const sliderControls = flatImages.length > 1 ? `
+                <button class="card-slider-btn prev-btn" onclick="event.stopPropagation(); app.navigateCardImage('flat', '${flat.id}', -1)">
+                    <i class="fa-solid fa-chevron-left"></i>
+                </button>
+                <button class="card-slider-btn next-btn" onclick="event.stopPropagation(); app.navigateCardImage('flat', '${flat.id}', 1)">
+                    <i class="fa-solid fa-chevron-right"></i>
+                </button>
+            ` : '';
+
             card.innerHTML = `
-                <div class="property-card-left">
-                    <img src="${flat.image || 'images/flat_1.png'}" alt="${flat.title}">
+                <div class="property-card-left" id="card-media-flat-${flat.id}">
+                    <div class="card-image-slider-wrapper">
+                        <img class="card-slider-image" src="${currentImg}" alt="${flat.title}">
+                        ${sliderControls}
+                        ${dotsHTML}
+                    </div>
                     <span class="tag-badge ${badgeClass}">${badgeText}</span>
                 </div>
                 <div class="property-card-right">
@@ -347,7 +380,7 @@ class RealEstateApp {
                         <div class="property-price">₹${flat.rent.toLocaleString('en-IN')}/month</div>
                         <h3 class="property-title">${flat.title}</h3>
                         <div class="property-location">
-                            <i class="fa-solid fa-location-dot"></i> Sanskruthi Township
+                            <i class="fa-solid fa-location-dot"></i> Singapur Township, Pocharam
                         </div>
                     </div>
                     <div class="property-specs">
@@ -503,12 +536,44 @@ class RealEstateApp {
             const facilitiesHTML = pg.facilities.slice(0, 3).map(f => `<span class="amenity-tag">${f}</span>`).join("");
             const remainingFacilities = pg.facilities.length > 3 ? `<span class="amenity-tag">+${pg.facilities.length - 3} more</span>` : "";
 
-            const whatsappText = encodeURIComponent(`Hello, I'm interested in booking a PG room: ${pg.name} located at Sanskruthi Township. Rent starts at: ₹${pg.rent}. Preferred sharing: ${pg.occupancy}. Please guide me on booking.`);
+            const whatsappText = encodeURIComponent(`Hello, I'm interested in booking a PG room: ${pg.name} located at Singapur Township, Pocharam. Rent starts at: ₹${pg.rent}. Preferred sharing: ${pg.occupancy}. Please guide me on booking.`);
             const whatsappUrl = `https://wa.me/${this.whatsappNumber}?text=${whatsappText}`;
 
+            const defaultImage = 'images/pg_1.png';
+            const pgImages = pg.images && pg.images.length > 0 ? pg.images : [pg.image || defaultImage];
+            const activeImageIdx = this.cardImageIndices[pg.id] || 0;
+            const currentImg = pgImages[activeImageIdx] || defaultImage;
+
+            // Generate dots HTML
+            let dotsHTML = '';
+            if (pgImages.length > 1) {
+                dotsHTML = `
+                    <div class="card-slider-dots">
+                        ${pgImages.map((_, idx) => `
+                            <span class="card-slider-dot ${idx === activeImageIdx ? 'active' : ''}" 
+                                  onclick="event.stopPropagation(); app.setCardImage('pg', '${pg.id}', ${idx})">
+                            </span>
+                        `).join("")}
+                    </div>
+                `;
+            }
+
+            const sliderControls = pgImages.length > 1 ? `
+                <button class="card-slider-btn prev-btn" onclick="event.stopPropagation(); app.navigateCardImage('pg', '${pg.id}', -1)">
+                    <i class="fa-solid fa-chevron-left"></i>
+                </button>
+                <button class="card-slider-btn next-btn" onclick="event.stopPropagation(); app.navigateCardImage('pg', '${pg.id}', 1)">
+                    <i class="fa-solid fa-chevron-right"></i>
+                </button>
+            ` : '';
+
             card.innerHTML = `
-                <div class="property-card-left">
-                    <img src="${pg.image || 'images/pg_1.png'}" alt="${pg.name}">
+                <div class="property-card-left" id="card-media-pg-${pg.id}">
+                    <div class="card-image-slider-wrapper">
+                        <img class="card-slider-image" src="${currentImg}" alt="${pg.name}">
+                        ${sliderControls}
+                        ${dotsHTML}
+                    </div>
                     <span class="tag-badge ${genderBadgeClass}">${genderText}</span>
                 </div>
                 <div class="property-card-right">
@@ -516,7 +581,7 @@ class RealEstateApp {
                         <div class="property-price">₹${pg.rent.toLocaleString('en-IN')}/month</div>
                         <h3 class="property-title">${pg.name}</h3>
                         <div class="property-location">
-                            <i class="fa-solid fa-location-dot"></i> Sanskruthi Township
+                            <i class="fa-solid fa-location-dot"></i> Singapur Township, Pocharam
                         </div>
                     </div>
                     <div class="property-specs">
@@ -702,7 +767,7 @@ class RealEstateApp {
 
         // Populate Modal Fields
         document.getElementById("modal-title").textContent = item.title || item.name;
-        document.getElementById("modal-location").innerHTML = `<i class="fa-solid fa-location-dot"></i> Sanskruthi Township`;
+        document.getElementById("modal-location").innerHTML = `<i class="fa-solid fa-location-dot"></i> Singapur Township, Pocharam`;
         document.getElementById("modal-rent").textContent = `₹${item.rent.toLocaleString('en-IN')} / month`;
         document.getElementById("modal-desc").textContent = item.desc;
         
@@ -741,7 +806,7 @@ class RealEstateApp {
         if (type === "flat") {
             queryText = `Hi, I saw your flat listing: ${item.title} on your Real Estate portal and want to inspect it. Please let me know its availability.`;
         } else {
-            queryText = `Hi, I saw your PG listing: ${item.name} in Sanskruthi Township on your Real Estate portal and want to check sharing details for ${item.occupancy}.`;
+            queryText = `Hi, I saw your PG listing: ${item.name} in Singapur Township, Pocharam on your Real Estate portal and want to check sharing details for ${item.occupancy}.`;
         }
         whatsappBtn.href = `https://wa.me/${this.whatsappNumber}?text=${encodeURIComponent(queryText)}`;
 
@@ -839,6 +904,48 @@ class RealEstateApp {
         });
     }
 
+    navigateCardImage(type, id, direction) {
+        const item = type === "flat" ? this.flats.find(f => f.id === id) : this.pgs.find(p => p.id === id);
+        if (!item) return;
+
+        const images = item.images && item.images.length > 0 ? item.images : [item.image || (type === "flat" ? "images/flat_1.png" : "images/pg_1.png")];
+        let currentIndex = this.cardImageIndices[id] || 0;
+        currentIndex += direction;
+        
+        if (currentIndex < 0) currentIndex = images.length - 1;
+        if (currentIndex >= images.length) currentIndex = 0;
+
+        this.setCardImage(type, id, currentIndex);
+    }
+
+    setCardImage(type, id, index) {
+        const item = type === "flat" ? this.flats.find(f => f.id === id) : this.pgs.find(p => p.id === id);
+        if (!item) return;
+
+        const images = item.images && item.images.length > 0 ? item.images : [item.image || (type === "flat" ? "images/flat_1.png" : "images/pg_1.png")];
+        if (index < 0 || index >= images.length) return;
+
+        this.cardImageIndices[id] = index;
+
+        // Update the image src in DOM
+        const cardMedia = document.getElementById(`card-media-${type}-${id}`);
+        if (cardMedia) {
+            const img = cardMedia.querySelector(".card-slider-image");
+            if (img) {
+                img.src = images[index];
+            }
+
+            const dots = cardMedia.querySelectorAll(".card-slider-dot");
+            dots.forEach((dot, idx) => {
+                if (idx === index) {
+                    dot.classList.add("active");
+                } else {
+                    dot.classList.remove("active");
+                }
+            });
+        }
+    }
+
     getAmenityIcon(tag) {
         const lower = tag.toLowerCase();
         if (lower.includes("wifi") || lower.includes("internet")) return '<i class="fa-solid fa-wifi"></i>';
@@ -863,9 +970,9 @@ class RealEstateApp {
         const deepLink = `${siteUrl}#${type}/${item.id}`;
         let details = "";
         if (type === 'flat') {
-            details = `🏠 *${name}*\n📍 Location: Sanskruthi Township\n💰 Rent: ₹${item.rent.toLocaleString('en-IN')}/month\n🛏️ ${item.bhk} | 📐 ${item.area} sqft | 🛋️ ${item.furnishing}\n✅ ${item.amenities.slice(0,4).join(' | ')}`;
+            details = `🏠 *${name}*\n📍 Location: Singapur Township, Pocharam\n💰 Rent: ₹${item.rent.toLocaleString('en-IN')}/month\n🛏️ ${item.bhk} | 📐 ${item.area} sqft | 🛋️ ${item.furnishing}\n✅ ${item.amenities.slice(0,4).join(' | ')}`;
         } else {
-            details = `🏡 *${name}*\n📍 Location: Sanskruthi Township\n💰 Rent: ₹${item.rent.toLocaleString('en-IN')}/month\n👥 ${item.occupancy} | ❄️ ${item.ac} | 🍽️ ${item.food ? 'Meals Included' : 'Self Kitchen'}\n✅ ${item.facilities.slice(0,4).join(' | ')}`;
+            details = `🏡 *${name}*\n📍 Location: Singapur Township, Pocharam\n💰 Rent: ₹${item.rent.toLocaleString('en-IN')}/month\n👥 ${item.occupancy} | ❄️ ${item.ac} | 🍽️ ${item.food ? 'Meals Included' : 'Self Kitchen'}\n✅ ${item.facilities.slice(0,4).join(' | ')}`;
         }
         const fullMsg = `${details}\n\n🔗 View details: ${deepLink}`;
         return `https://wa.me/?text=${encodeURIComponent(fullMsg)}`;
