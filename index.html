@@ -15,6 +15,209 @@
 
 <body>
 
+    <!-- ========================================================= -->
+    <!-- LOGIN OVERLAY - Shown before any site content is accessible -->
+    <!-- ========================================================= -->
+    <div class="login-overlay" id="login-overlay">
+        <div class="login-backdrop"></div>
+        <div class="login-card">
+
+            <!-- Logo & Brand -->
+            <div class="login-brand">
+                <div class="login-brand-icon">
+                    <i class="fa-solid fa-house-chimney"></i>
+                </div>
+                <h1 class="login-brand-name">Rental<span>RealEstate</span></h1>
+                <p class="login-brand-tagline">Your trusted verified rental portal</p>
+            </div>
+
+            <!-- Tab Switcher: Email / Mobile OTP -->
+            <div class="login-tabs" id="login-tab-switcher">
+                <button class="login-tab-btn active" id="login-tab-email">
+                    <i class="fa-solid fa-envelope"></i> Email Login
+                </button>
+                <button class="login-tab-btn" id="login-tab-otp">
+                    <i class="fa-solid fa-mobile-screen"></i> Mobile OTP
+                </button>
+            </div>
+
+            <!-- ================================================ -->
+            <!-- PANEL 1: EMAIL / PASSWORD LOGIN & REGISTER        -->
+            <!-- ================================================ -->
+            <div class="login-panel active" id="login-panel-email">
+
+                <!-- LOGIN FORM (default view) -->
+                <div class="login-form-wrapper active" id="login-form-wrapper">
+                    <h2 class="login-form-title">Welcome Back</h2>
+                    <p class="login-form-subtitle">Sign in to your account to continue</p>
+
+                    <form id="email-login-form" autocomplete="on">
+                        <div class="login-field-group">
+                            <label class="login-label" for="login-email">
+                                <i class="fa-solid fa-envelope"></i> Email Address
+                            </label>
+                            <input type="email" id="login-email" class="login-input"
+                                placeholder="yourname@example.com" required autocomplete="email">
+                        </div>
+
+                        <div class="login-field-group">
+                            <label class="login-label" for="login-password">
+                                <i class="fa-solid fa-lock"></i> Password
+                            </label>
+                            <div class="login-input-wrapper">
+                                <input type="password" id="login-password" class="login-input"
+                                    placeholder="Enter your password" required autocomplete="current-password">
+                                <button type="button" class="pwd-toggle-btn" id="toggle-password-visibility" title="Show/Hide password">
+                                    <i class="fa-solid fa-eye"></i>
+                                </button>
+                            </div>
+                        </div>
+
+                        <p class="login-error-msg" id="email-error"></p>
+
+                        <button type="submit" class="login-submit-btn" id="email-login-btn">
+                            <i class="fa-solid fa-right-to-bracket"></i> Sign In
+                        </button>
+                    </form>
+
+                    <div class="login-demo-hint">
+                        <p><strong>Demo Credentials:</strong></p>
+                        <p>👤 Admin: <code>admin@rentalrealestate.com</code> / <code>Admin@1234</code></p>
+                        <p>👤 User: <code>user@demo.com</code> / <code>Demo@1234</code></p>
+                    </div>
+
+                    <p class="login-switch-text">
+                        Don't have an account?
+                        <a href="#" id="show-register-btn">Register here</a>
+                    </p>
+                </div>
+
+                <!-- REGISTER FORM -->
+                <div class="login-form-wrapper" id="register-form-wrapper">
+                    <h2 class="login-form-title">Create Account</h2>
+                    <p class="login-form-subtitle">Register to access the portal</p>
+
+                    <form id="register-form" autocomplete="on">
+                        <div class="login-field-group">
+                            <label class="login-label" for="register-name">
+                                <i class="fa-solid fa-user"></i> Full Name
+                            </label>
+                            <input type="text" id="register-name" class="login-input"
+                                placeholder="Your full name" required>
+                        </div>
+
+                        <div class="login-field-group">
+                            <label class="login-label" for="register-email">
+                                <i class="fa-solid fa-envelope"></i> Email Address
+                            </label>
+                            <input type="email" id="register-email" class="login-input"
+                                placeholder="yourname@example.com" required>
+                        </div>
+
+                        <div class="login-field-group">
+                            <label class="login-label" for="register-mobile">
+                                <i class="fa-solid fa-mobile-screen"></i> Mobile Number
+                            </label>
+                            <div class="login-mobile-prefix-wrap">
+                                <span class="login-prefix">+91</span>
+                                <input type="tel" id="register-mobile" class="login-input login-mobile-in"
+                                    placeholder="10-digit mobile number" maxlength="10" required>
+                            </div>
+                        </div>
+
+                        <div class="login-field-group">
+                            <label class="login-label" for="register-password">
+                                <i class="fa-solid fa-lock"></i> Password
+                            </label>
+                            <input type="password" id="register-password" class="login-input"
+                                placeholder="Minimum 6 characters" required>
+                        </div>
+
+                        <div class="login-field-group">
+                            <label class="login-label" for="register-confirm-password">
+                                <i class="fa-solid fa-lock"></i> Confirm Password
+                            </label>
+                            <input type="password" id="register-confirm-password" class="login-input"
+                                placeholder="Re-enter your password" required>
+                        </div>
+
+                        <p class="login-error-msg" id="register-error"></p>
+
+                        <button type="submit" class="login-submit-btn">
+                            <i class="fa-solid fa-user-plus"></i> Create Account
+                        </button>
+                    </form>
+
+                    <p class="login-switch-text">
+                        Already have an account?
+                        <a href="#" id="show-login-btn">Sign in here</a>
+                    </p>
+                </div>
+            </div>
+
+            <!-- ================================================ -->
+            <!-- PANEL 2: MOBILE OTP LOGIN                         -->
+            <!-- ================================================ -->
+            <div class="login-panel" id="login-panel-otp">
+                <h2 class="login-form-title">Login with Mobile</h2>
+                <p class="login-form-subtitle">Enter your mobile number to receive an OTP</p>
+
+                <!-- Step 1: Enter Mobile Number -->
+                <div id="otp-mobile-section">
+                    <div class="login-field-group">
+                        <label class="login-label" for="otp-mobile">
+                            <i class="fa-solid fa-mobile-screen"></i> Mobile Number
+                        </label>
+                        <div class="login-mobile-prefix-wrap">
+                            <span class="login-prefix">+91</span>
+                            <input type="tel" id="otp-mobile" class="login-input login-mobile-in"
+                                placeholder="10-digit mobile number" maxlength="10">
+                        </div>
+                    </div>
+
+                    <p class="login-error-msg" id="otp-error"></p>
+
+                    <button type="button" class="login-submit-btn" id="send-otp-btn">
+                        <i class="fa-solid fa-paper-plane"></i> Send OTP
+                    </button>
+                </div>
+
+                <!-- Step 2: Enter OTP -->
+                <div id="otp-verify-section" style="display:none;">
+                    <p class="otp-sent-info" id="otp-sent-info">OTP sent to your number</p>
+                    <div class="login-otp-hint">
+                        <i class="fa-solid fa-circle-info"></i>
+                        The OTP will appear as a notification on screen (demo mode — no real SMS sent).
+                    </div>
+
+                    <form id="otp-verify-form">
+                        <div class="login-field-group">
+                            <label class="login-label" for="otp-input">
+                                <i class="fa-solid fa-key"></i> Enter 6-Digit OTP
+                            </label>
+                            <input type="text" id="otp-input" class="login-input otp-field"
+                                placeholder="------" maxlength="6" pattern="[0-9]{6}"
+                                inputmode="numeric" required>
+                        </div>
+
+                        <p class="login-error-msg" id="otp-error"></p>
+
+                        <button type="submit" class="login-submit-btn">
+                            <i class="fa-solid fa-check"></i> Verify OTP & Login
+                        </button>
+                    </form>
+
+                    <p class="login-switch-text" style="margin-top: 12px;">
+                        Didn't receive OTP?
+                        <a href="#" id="resend-otp-btn">Resend OTP</a>
+                    </p>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <!-- END LOGIN OVERLAY -->
+
     <!-- Top Contact Bar -->
     <div class="top-bar" id="top-contact-bar">
         <div class="container">
@@ -47,9 +250,19 @@
                 <a href="#services" class="nav-link" data-target="services-section">Services</a>
                 <a href="#about" class="nav-link" data-target="about-section">About Us</a>
                 <a href="#contact" class="nav-link" data-target="contact-section">Contact Us</a>
-                <a href="#admin" class="nav-link admin-link" data-target="admin-section" id="admin-nav-btn">
+                <a href="#admin" class="nav-link admin-link" data-target="admin-section" id="admin-nav-btn" style="display:none;">
                     <i class="fa-solid fa-user-gear"></i> Admin Panel
                 </a>
+                <!-- User Badge (shown after login) -->
+                <div class="nav-user-badge" id="nav-user-badge" style="display:none;">
+                    <div class="nav-user-avatar"><i class="fa-solid fa-user"></i></div>
+                    <span class="nav-user-name">User</span>
+                    <span class="nav-role-badge" style="display:none;">Admin</span>
+                </div>
+                <!-- Logout Button -->
+                <button class="nav-logout-btn" id="logout-btn" style="display:none;" title="Logout">
+                    <i class="fa-solid fa-right-from-bracket"></i> Logout
+                </button>
             </nav>
 
             <button class="mobile-nav-toggle" id="mobile-menu-toggle" aria-label="Toggle Navigation Menu">
@@ -1169,7 +1382,7 @@
                 <ul class="footer-links">
                     <li><a href="#" onclick="app.navigateTo('about-section')">About Us</a></li>
                     <li><a href="#" onclick="app.navigateTo('contact-section')">Contact Us</a></li>
-                    <li><a href="#" onclick="app.navigateTo('admin-section')">Admin Dashboard</a></li>
+                    <li id="footer-admin-link" style="display:none;"><a href="#" onclick="app.navigateTo('admin-section')">Admin Dashboard</a></li>
                 </ul>
             </div>
 
@@ -1265,9 +1478,38 @@
         <i class="fa-brands fa-whatsapp"></i>
     </a>
 
+    <!-- PROFILE MODAL -->
+    <div id="profile-modal" class="modal-overlay" style="display: none;">
+        <div class="modal-content glass-card profile-card" style="width: 90%; max-width: 400px; padding: 30px; position: relative; text-align: center; background: white; border-radius: 20px;">
+            <button class="modal-close" id="profile-close-btn" style="position: absolute; top: 15px; right: 15px; background: none; border: none; font-size: 1.2rem; cursor: pointer; color: var(--neutral-500);"><i class="fa-solid fa-xmark"></i></button>
+            <div class="profile-header">
+                <div class="profile-avatar-large" style="width: 80px; height: 80px; border-radius: 50%; background: var(--primary-light); color: var(--primary); font-size: 2.5rem; display: flex; align-items: center; justify-content: center; margin: 0 auto 15px;">
+                    <i class="fa-solid fa-user"></i>
+                </div>
+                <h3 id="profile-name" style="margin-bottom: 5px; color: var(--neutral-900);">User Name</h3>
+                <p id="profile-role" class="section-tag">User</p>
+            </div>
+            <div class="profile-details" style="margin: 25px 0; text-align: left;">
+                <div class="profile-field" style="display: flex; align-items: center; gap: 15px; margin-bottom: 15px; padding: 12px; background: var(--neutral-50); border-radius: 10px; color: var(--neutral-700);">
+                    <i class="fa-solid fa-envelope" style="color: var(--primary); font-size: 1.1rem; width: 20px; text-align: center;"></i> <span id="profile-email">email@example.com</span>
+                </div>
+                <div class="profile-field" style="display: flex; align-items: center; gap: 15px; margin-bottom: 15px; padding: 12px; background: var(--neutral-50); border-radius: 10px; color: var(--neutral-700);">
+                    <i class="fa-solid fa-mobile-screen" style="color: var(--primary); font-size: 1.1rem; width: 20px; text-align: center;"></i> <span id="profile-mobile">9999999999</span>
+                </div>
+            </div>
+            <div class="profile-actions">
+                <button class="btn" id="profile-logout-btn" style="width: 100%; background: var(--danger); color: white; border: none;">
+                    <i class="fa-solid fa-right-from-bracket"></i> Logout
+                </button>
+            </div>
+        </div>
+    </div>
+
     <!-- TOAST CONTAINER FOR ALERTS -->
     <div class="toast-container" id="toast-notifications-container"></div>
 
+    <!-- Authentication System (must load first) -->
+    <script src="auth.js"></script>
     <!-- Core App Logics -->
     <script src="app.js"></script>
     <!-- Admin Management Logic -->

@@ -245,6 +245,14 @@ class RealEstateApp {
     }
 
     navigateTo(sectionId) {
+        // Guard: Admin section requires admin role
+        if (sectionId === "admin-section") {
+            if (!window.auth || !window.auth.isAdmin()) {
+                this.showToast("⛔ Access Denied. Admin Panel is restricted to administrators only.", "error");
+                return;
+            }
+        }
+
         // Hide all page sections
         const sections = document.querySelectorAll(".page-section");
         sections.forEach(sec => {
@@ -1057,7 +1065,7 @@ class RealEstateApp {
     // ==========================================================================
     // NOTIFICATIONS SYSTEM
     // ==========================================================================
-    showToast(message, type = "success") {
+    showToast(message, type = "success", duration = 4000) {
         const container = document.getElementById("toast-notifications-container");
         if (!container) return;
 
@@ -1075,16 +1083,22 @@ class RealEstateApp {
 
         container.appendChild(toast);
 
-        // Remove toast after 4 seconds
+        // Remove toast after specified duration
         setTimeout(() => {
             toast.style.animation = "slideInRight 0.3s cubic-bezier(0.16, 1, 0.3, 1) reverse";
             setTimeout(() => {
                 toast.remove();
             }, 300);
-        }, 4000);
+        }, duration);
     }
 }
 
-// Global App Initialization
-const app = new RealEstateApp();
-window.app = app;
+// ============================================================================
+// DEFERRED INITIALIZATION
+// app is initialized by auth.js once the user successfully logs in.
+// This prevents any content from rendering before authentication.
+// ============================================================================
+window.appInitialized = false;
+
+// Expose RealEstateApp class globally so auth.js can instantiate it
+window.RealEstateApp = RealEstateApp;

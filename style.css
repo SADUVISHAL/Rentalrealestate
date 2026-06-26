@@ -341,10 +341,11 @@ img {
 }
 
 .main-header {
-    background: rgba(255, 255, 255, 0.85);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    border-bottom: 1px solid var(--neutral-200);
+    background: rgba(255, 255, 255, 0.7);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.5);
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.05);
     position: sticky;
     top: 0;
     z-index: 100;
@@ -354,19 +355,22 @@ img {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    height: 72px;
+    height: 80px;
 }
 
 .logo {
-    font-size: 1.4rem;
-    font-weight: 800;
+    font-size: 1.6rem;
+    font-weight: 900;
     color: var(--neutral-900);
     display: flex;
     align-items: center;
-    gap: 8px;
+    gap: 10px;
+    letter-spacing: -0.5px;
 }
 .logo i {
     color: var(--primary);
+    font-size: 1.8rem;
+    filter: drop-shadow(0 4px 6px rgba(79, 70, 229, 0.3));
 }
 .logo span {
     color: var(--primary);
@@ -374,28 +378,58 @@ img {
 
 .nav-menu {
     display: flex;
-    gap: 8px;
+    gap: 6px;
+    align-items: center;
 }
 .nav-link {
-    font-size: 0.95rem;
+    font-size: 1rem;
     font-weight: 600;
-    color: var(--neutral-700);
-    padding: 8px 16px;
-    border-radius: var(--radius-sm);
+    color: var(--neutral-600);
+    padding: 8px 18px;
+    border-radius: var(--radius-full);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    overflow: hidden;
+    z-index: 1;
 }
-.nav-link:hover, .nav-link.active {
+.nav-link::before {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 0;
+    height: 3px;
+    background: var(--primary);
+    transition: width 0.3s ease;
+    border-radius: 3px 3px 0 0;
+}
+.nav-link:hover {
     color: var(--primary);
     background-color: var(--primary-light);
+}
+.nav-link:hover::before {
+    width: 50%;
+}
+.nav-link.active {
+    color: #fff;
+    background: linear-gradient(135deg, var(--primary), var(--secondary));
+    box-shadow: 0 4px 15px rgba(79, 70, 229, 0.4);
+}
+.nav-link.active::before {
+    display: none;
 }
 
 .admin-link {
     border: 1px dashed var(--primary);
     color: var(--primary);
+    margin-left: 10px;
 }
 .admin-link:hover, .admin-link.active {
     background-color: var(--primary);
     color: #fff;
 }
+
 
 .mobile-nav-toggle {
     display: none;
@@ -1875,5 +1909,571 @@ img {
     }
     .property-actions {
         flex-direction: column;
+    }
+}
+
+/* ==========================================================================
+   LOGIN OVERLAY SYSTEM
+   ========================================================================== */
+
+/* Animated gradient background for login page */
+@keyframes loginBgShift {
+    0%   { background-position: 0% 50%; }
+    50%  { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+@keyframes loginCardIn {
+    from { opacity: 0; transform: translateY(40px) scale(0.97); }
+    to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+@keyframes overlayOut {
+    from { opacity: 1; }
+    to   { opacity: 0; pointer-events: none; }
+}
+
+@keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    20%       { transform: translateX(-8px); }
+    40%       { transform: translateX(8px); }
+    60%       { transform: translateX(-5px); }
+    80%       { transform: translateX(5px); }
+}
+
+/* Full-page login overlay */
+.login-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    overflow-y: auto;
+    padding: 20px;
+}
+
+.login-overlay.active {
+    display: flex;
+}
+
+.login-overlay.hiding {
+    animation: overlayOut 0.6s ease forwards;
+}
+
+/* Animated gradient backdrop */
+.login-backdrop {
+    position: fixed;
+    inset: 0;
+    background: linear-gradient(
+        -45deg,
+        #0f172a,
+        #1e1b4b,
+        #0f172a,
+        #1e3a5f,
+        #0f172a
+    );
+    background-size: 400% 400%;
+    animation: loginBgShift 12s ease infinite;
+    z-index: -1;
+}
+
+/* The glassy login card */
+.login-card {
+    background: rgba(255, 255, 255, 0.07);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(28px);
+    -webkit-backdrop-filter: blur(28px);
+    border-radius: 24px;
+    padding: 40px;
+    width: 100%;
+    max-width: 480px;
+    box-shadow:
+        0 32px 64px rgba(0, 0, 0, 0.4),
+        0 0 0 1px rgba(255,255,255,0.06) inset;
+    animation: loginCardIn 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    margin: auto;
+}
+
+/* Brand / Logo area inside login */
+.login-brand {
+    text-align: center;
+    margin-bottom: 28px;
+}
+
+.login-brand-icon {
+    width: 64px;
+    height: 64px;
+    background: linear-gradient(135deg, var(--primary), var(--secondary));
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 14px;
+    font-size: 1.8rem;
+    color: #fff;
+    box-shadow: 0 8px 24px rgba(79, 70, 229, 0.45);
+}
+
+.login-brand-name {
+    font-size: 1.7rem;
+    font-weight: 800;
+    color: #fff;
+    margin-bottom: 4px;
+}
+
+.login-brand-name span {
+    color: var(--accent);
+}
+
+.login-brand-tagline {
+    font-size: 0.85rem;
+    color: rgba(255, 255, 255, 0.55);
+}
+
+/* Tab Switcher: Email / OTP */
+.login-tabs {
+    display: flex;
+    background: rgba(255, 255, 255, 0.07);
+    border-radius: 12px;
+    padding: 4px;
+    gap: 4px;
+    margin-bottom: 24px;
+    border: 1px solid rgba(255,255,255,0.1);
+}
+
+.login-tab-btn {
+    flex: 1;
+    background: transparent;
+    border: none;
+    color: rgba(255, 255, 255, 0.55);
+    font-family: inherit;
+    font-size: 0.9rem;
+    font-weight: 600;
+    padding: 10px 12px;
+    border-radius: 9px;
+    cursor: pointer;
+    transition: all 0.25s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+
+.login-tab-btn.active {
+    background: rgba(255, 255, 255, 0.15);
+    color: #fff;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+}
+
+.login-tab-btn:hover:not(.active) {
+    color: rgba(255, 255, 255, 0.85);
+}
+
+/* Login Panels */
+.login-panel {
+    display: none;
+}
+
+.login-panel.active {
+    display: block;
+    animation: fadeIn 0.3s ease;
+}
+
+/* Form wrappers (login / register within email tab) */
+.login-form-wrapper {
+    display: none;
+}
+
+.login-form-wrapper.active {
+    display: block;
+    animation: fadeIn 0.3s ease;
+}
+
+/* Form titles */
+.login-form-title {
+    font-size: 1.4rem;
+    font-weight: 800;
+    color: #fff;
+    margin-bottom: 4px;
+}
+
+.login-form-subtitle {
+    font-size: 0.875rem;
+    color: rgba(255,255,255,0.5);
+    margin-bottom: 24px;
+}
+
+/* Field groups */
+.login-field-group {
+    margin-bottom: 18px;
+}
+
+.login-label {
+    display: block;
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: rgba(255, 255, 255, 0.65);
+    margin-bottom: 8px;
+    letter-spacing: 0.3px;
+}
+
+.login-label i {
+    margin-right: 5px;
+    font-size: 0.78rem;
+}
+
+/* Login inputs */
+.login-input {
+    width: 100%;
+    padding: 13px 16px;
+    background: rgba(255, 255, 255, 0.09);
+    border: 1.5px solid rgba(255, 255, 255, 0.15);
+    border-radius: 10px;
+    color: #fff;
+    font-family: inherit;
+    font-size: 0.95rem;
+    outline: none;
+    transition: all 0.25s ease;
+}
+
+.login-input::placeholder {
+    color: rgba(255, 255, 255, 0.3);
+}
+
+.login-input:focus {
+    border-color: rgba(79, 70, 229, 0.7);
+    background: rgba(255, 255, 255, 0.12);
+    box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.2);
+}
+
+/* Wrapper for password field with toggle icon */
+.login-input-wrapper {
+    position: relative;
+}
+
+.login-input-wrapper .login-input {
+    padding-right: 48px;
+}
+
+.pwd-toggle-btn {
+    position: absolute;
+    right: 14px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: transparent;
+    border: none;
+    color: rgba(255, 255, 255, 0.45);
+    cursor: pointer;
+    font-size: 1rem;
+    transition: color 0.2s;
+}
+
+.pwd-toggle-btn:hover {
+    color: #fff;
+}
+
+/* Mobile number prefix wrap */
+.login-mobile-prefix-wrap {
+    display: flex;
+    align-items: center;
+    background: rgba(255, 255, 255, 0.09);
+    border: 1.5px solid rgba(255, 255, 255, 0.15);
+    border-radius: 10px;
+    overflow: hidden;
+    transition: all 0.25s ease;
+}
+
+.login-mobile-prefix-wrap:focus-within {
+    border-color: rgba(79, 70, 229, 0.7);
+    box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.2);
+}
+
+.login-prefix {
+    padding: 13px 14px;
+    background: rgba(255, 255, 255, 0.08);
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 0.95rem;
+    font-weight: 600;
+    border-right: 1px solid rgba(255, 255, 255, 0.12);
+    white-space: nowrap;
+}
+
+.login-mobile-in {
+    flex: 1;
+    background: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+    border-radius: 0 !important;
+}
+
+.login-mobile-in:focus {
+    border: none !important;
+    box-shadow: none !important;
+}
+
+/* Submit button */
+.login-submit-btn {
+    width: 100%;
+    padding: 14px;
+    background: linear-gradient(135deg, var(--primary), #6366f1);
+    border: none;
+    border-radius: 10px;
+    color: #fff;
+    font-family: inherit;
+    font-size: 1rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 8px;
+    box-shadow: 0 4px 16px rgba(79, 70, 229, 0.4);
+}
+
+.login-submit-btn:hover {
+    background: linear-gradient(135deg, var(--primary-hover), #4f46e5);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(79, 70, 229, 0.5);
+}
+
+.login-submit-btn:active {
+    transform: translateY(0);
+}
+
+/* Error / Success message below fields */
+.login-error-msg {
+    font-size: 0.83rem;
+    font-weight: 600;
+    min-height: 20px;
+    margin-bottom: 10px;
+    border-radius: 6px;
+    display: none;
+    padding: 0;
+}
+
+.login-error-msg.active {
+    display: block;
+    padding: 8px 12px;
+}
+
+.login-error-msg.active.error {
+    color: #fca5a5;
+    background: rgba(239, 68, 68, 0.12);
+    border: 1px solid rgba(239, 68, 68, 0.25);
+}
+
+.login-error-msg.active.success {
+    color: #6ee7b7;
+    background: rgba(16, 185, 129, 0.12);
+    border: 1px solid rgba(16, 185, 129, 0.25);
+}
+
+/* Shake animation for wrong credentials */
+.shake {
+    animation: shake 0.5s ease;
+}
+
+/* Demo hint box */
+.login-demo-hint {
+    background: rgba(245, 158, 11, 0.1);
+    border: 1px solid rgba(245, 158, 11, 0.25);
+    border-radius: 10px;
+    padding: 12px 16px;
+    margin-top: 16px;
+    margin-bottom: 14px;
+    font-size: 0.8rem;
+    color: rgba(255,255,255,0.7);
+    line-height: 1.7;
+}
+
+.login-demo-hint p:first-child {
+    color: var(--accent);
+    font-weight: 700;
+    margin-bottom: 2px;
+}
+
+.login-demo-hint code {
+    background: rgba(255,255,255,0.12);
+    padding: 1px 6px;
+    border-radius: 4px;
+    color: #93c5fd;
+    font-family: monospace;
+    font-size: 0.82rem;
+}
+
+/* Switch text links (register/login toggle) */
+.login-switch-text {
+    font-size: 0.85rem;
+    color: rgba(255,255,255,0.5);
+    text-align: center;
+    margin-top: 16px;
+}
+
+.login-switch-text a {
+    color: var(--accent);
+    font-weight: 600;
+}
+
+.login-switch-text a:hover {
+    color: #fbbf24;
+    text-decoration: underline;
+}
+
+/* OTP section styles */
+.otp-sent-info {
+    font-size: 0.9rem;
+    color: #6ee7b7;
+    font-weight: 600;
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.otp-sent-info::before {
+    content: '✓';
+    width: 20px;
+    height: 20px;
+    background: rgba(16, 185, 129, 0.2);
+    border-radius: 50%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.75rem;
+    color: #34d399;
+    flex-shrink: 0;
+}
+
+.login-otp-hint {
+    background: rgba(14, 165, 233, 0.1);
+    border: 1px solid rgba(14, 165, 233, 0.2);
+    border-radius: 8px;
+    padding: 10px 12px;
+    font-size: 0.82rem;
+    color: rgba(255,255,255,0.6);
+    margin-bottom: 16px;
+    line-height: 1.5;
+}
+
+.login-otp-hint i {
+    color: var(--secondary);
+    margin-right: 4px;
+}
+
+/* OTP digit input - large styled */
+.otp-field {
+    font-size: 1.6rem !important;
+    font-weight: 800 !important;
+    letter-spacing: 10px !important;
+    text-align: center !important;
+    padding: 16px 20px !important;
+}
+
+/* Prevent body scroll when login is showing */
+body.login-active {
+    overflow: hidden;
+}
+
+/* ==========================================================================
+   NAV USER BADGE & LOGOUT BUTTON
+   ========================================================================== */
+.nav-user-badge {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--primary-light);
+    border: 1px solid rgba(79, 70, 229, 0.2);
+    border-radius: 30px;
+    padding: 5px 14px 5px 8px;
+    cursor: default;
+    user-select: none;
+}
+
+.nav-user-avatar {
+    width: 30px;
+    height: 30px;
+    background: linear-gradient(135deg, var(--primary), var(--secondary));
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    font-size: 0.8rem;
+    flex-shrink: 0;
+}
+
+.nav-user-name {
+    font-size: 0.88rem;
+    font-weight: 700;
+    color: var(--primary);
+    max-width: 120px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.nav-role-badge {
+    font-size: 0.7rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    background: var(--accent);
+    color: var(--neutral-900);
+    padding: 1px 7px;
+    border-radius: 30px;
+}
+
+/* Logout button in nav */
+.nav-logout-btn {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 16px;
+    background: transparent;
+    border: 1.5px solid var(--danger);
+    border-radius: var(--radius-sm);
+    color: var(--danger);
+    font-family: inherit;
+    font-size: 0.88rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+.nav-logout-btn:hover {
+    background: var(--danger);
+    color: #fff;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(239, 68, 68, 0.3);
+}
+
+/* Responsive: Login overlay card on small screens */
+@media (max-width: 520px) {
+    .login-card {
+        padding: 28px 20px;
+        border-radius: 16px;
+        max-width: 100%;
+    }
+
+    .login-brand-name {
+        font-size: 1.4rem;
+    }
+
+    .login-tab-btn {
+        font-size: 0.8rem;
+        padding: 8px 8px;
+    }
+
+    .otp-field {
+        letter-spacing: 6px !important;
+        font-size: 1.3rem !important;
+    }
+
+    .nav-user-badge,
+    .nav-logout-btn {
+        display: none !important;
     }
 }

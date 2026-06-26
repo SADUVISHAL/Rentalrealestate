@@ -11,6 +11,20 @@ class AdminPanel {
     init() {
         if (!window.app) return;
 
+        // Security: Only allow admin users to initialize the panel
+        if (!window.auth || !window.auth.isAdmin()) {
+            console.warn("Admin panel access blocked: not an admin user.");
+            if (window.app) {
+                window.app.showToast("⛔ Admin Panel is restricted to administrators only.", "error");
+                window.app.navigateTo("home-section");
+            }
+            return;
+        }
+
+        // Show footer admin link for admin users
+        const footerAdminLink = document.getElementById("footer-admin-link");
+        if (footerAdminLink) footerAdminLink.style.display = "block";
+
         // Setup Tab Menu Clicks
         this.initTabMenu();
 
