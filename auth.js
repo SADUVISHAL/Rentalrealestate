@@ -27,14 +27,7 @@ class AuthManager {
 
         this.SESSION_KEY = "rre_auth_session";
         this.REGISTERED_USERS_KEY = "rre_registered_users";
-        this.currentUser = null;
-        this.pendingOTP = null;
-        this.pendingOTPMobile = null;
-        this.otpExpiry = null;
 
-        // Active tab: 'email' or 'otp'
-        this.activeLoginTab = "email";
-        // Current form mode in email tab: 'login' or 'register'
         this.emailFormMode = "login";
     }
 
@@ -113,12 +106,6 @@ class AuthManager {
      * Attach all event listeners for the login overlay
      */
     _attachOverlayEvents() {
-        // Tab switching: Email vs OTP
-        const emailTab = document.getElementById("login-tab-email");
-        const otpTab = document.getElementById("login-tab-otp");
-        if (emailTab) emailTab.addEventListener("click", () => this._switchLoginTab("email"));
-        if (otpTab) otpTab.addEventListener("click", () => this._switchLoginTab("otp"));
-
         // Email/Password Form
         const emailLoginForm = document.getElementById("email-login-form");
         if (emailLoginForm) {
@@ -155,29 +142,7 @@ class AuthManager {
             });
         }
 
-        // OTP: Send OTP button
-        const sendOtpBtn = document.getElementById("send-otp-btn");
-        if (sendOtpBtn) {
-            sendOtpBtn.addEventListener("click", () => this._handleSendOTP());
-        }
 
-        // OTP: Verify OTP form
-        const otpVerifyForm = document.getElementById("otp-verify-form");
-        if (otpVerifyForm) {
-            otpVerifyForm.addEventListener("submit", (e) => {
-                e.preventDefault();
-                this._handleVerifyOTP();
-            });
-        }
-
-        // OTP: Resend OTP
-        const resendOtpBtn = document.getElementById("resend-otp-btn");
-        if (resendOtpBtn) {
-            resendOtpBtn.addEventListener("click", (e) => {
-                e.preventDefault();
-                this._handleSendOTP(true);
-            });
-        }
 
         // Password toggle visibility
         const pwdToggle = document.getElementById("toggle-password-visibility");
@@ -201,30 +166,7 @@ class AuthManager {
         }
     }
 
-    /**
-     * Switch between Email and OTP login tabs
-     */
-    _switchLoginTab(tab) {
-        this.activeLoginTab = tab;
 
-        const emailTabBtn = document.getElementById("login-tab-email");
-        const otpTabBtn = document.getElementById("login-tab-otp");
-        const emailPanel = document.getElementById("login-panel-email");
-        const otpPanel = document.getElementById("login-panel-otp");
-
-        if (tab === "email") {
-            emailTabBtn.classList.add("active");
-            otpTabBtn.classList.remove("active");
-            emailPanel.classList.add("active");
-            otpPanel.classList.remove("active");
-        } else {
-            otpTabBtn.classList.add("active");
-            emailTabBtn.classList.remove("active");
-            otpPanel.classList.add("active");
-            emailPanel.classList.remove("active");
-        }
-        this._clearLoginErrors();
-    }
 
     /**
      * Switch between login and register forms in email tab
@@ -326,120 +268,7 @@ class AuthManager {
         this._onLoginSuccess(newUser, true);
     }
 
-    /**
-     * Handle Send OTP
-     */
-    _handleSendOTP(isResend = false) {
-        const mobile = document.getElementById("otp-mobile").value.trim();
 
-        if (!/^\d{10}$/.test(mobile)) {
-            this._showLoginError("otp-error", "Please enter a valid 10-digit mobile number.");
-            return;
-        }
-
-        // Generate 6-digit OTP
-        const otp = Math.floor(100000 + Math.random() * 900000).toString();
-        this.pendingOTP = otp;
-        this.pendingOTPMobile = mobile;
-        this.otpExpiry = Date.now() + 5 * 60 * 1000; // 5 minutes expiry
-
-        // Show OTP to user (simulated - in production this would send via SMS)
-        alert(`SMS Sent to ${mobile}.\nYour OTP is: ${otp}`);
-        
-        // Use app toast if available, otherwise show a prominent alert banner inside the login card
-        if (window.app && window.app.showToast) {
-            window.app.showToast(
-                `📱 OTP for ${mobile}: <strong style="font-size:1.2em; letter-spacing:3px">${otp}</strong> (Valid for 5 min)`,
-                "success",
-                8000
-            );
-        } else {
-            // Show OTP directly inside the login card via a temporary banner
-            this._showOTPBanner(otp, mobile);
-        }
-
-        // Show OTP verification section
-        const otpMobileSection = document.getElementById("otp-mobile-section");
-        const otpVerifySection = document.getElementById("otp-verify-section");
-        const sendOtpBtn = document.getElementById("send-otp-btn");
-
-        if (otpMobileSection) otpMobileSection.style.display = "none";
-        if (otpVerifySection) otpVerifySection.style.display = "block";
-        if (sendOtpBtn) sendOtpBtn.style.display = "none";
-
-        const otpSentInfo = document.getElementById("otp-sent-info");
-        if (otpSentInfo) {
-            otpSentInfo.textContent = `OTP sent to +91 ${mobile.slice(0, 5)}XXXXX`;
-        }
-
-        this._clearLoginErrors();
-
-        if (isResend) {
-            this._showLoginSuccess("otp-error", "New OTP sent successfully!");
-        }
-    }
-
-    /**
-     * Handle OTP Verification
-     */
-    _handleVerifyOTP() {
-        const enteredOtp = document.getElementById("otp-input").value.trim();
-
-        if (!enteredOtp) {
-            this._showLoginError("otp-error", "Please enter the OTP.");
-            return;
-        }
-
-        if (Date.now() > this.otpExpiry) {
-            this._showLoginError("otp-error", "OTP has expired. Please request a new one.");
-            this._resetOTPForm();
-            return;
-        }
-
-        if (enteredOtp !== this.pendingOTP) {
-            this._showLoginError("otp-error", "Incorrect OTP. Please try again.");
-            document.getElementById("otp-input").classList.add("shake");
-            setTimeout(() => document.getElementById("otp-input").classList.remove("shake"), 500);
-            return;
-        }
-
-        // OTP verified — find or create user by mobile
-        const allUsers = this._getAllUsers();
-        let user = allUsers.find(u => u.mobile === this.pendingOTPMobile);
-
-        if (!user) {
-            // Create a guest user with this mobile
-            user = {
-                id: `mobile-${Date.now()}`,
-                name: `User ${this.pendingOTPMobile.slice(-4)}`,
-                email: `${this.pendingOTPMobile}@mobile.rre`,
-                mobile: this.pendingOTPMobile,
-                role: "user"
-            };
-        }
-
-        this.pendingOTP = null;
-        this.pendingOTPMobile = null;
-        this.otpExpiry = null;
-
-        this._onLoginSuccess(user, true);
-    }
-
-    /**
-     * Reset OTP form to initial state
-     */
-    _resetOTPForm() {
-        const otpMobileSection = document.getElementById("otp-mobile-section");
-        const otpVerifySection = document.getElementById("otp-verify-section");
-        const sendOtpBtn = document.getElementById("send-otp-btn");
-
-        if (otpMobileSection) otpMobileSection.style.display = "block";
-        if (otpVerifySection) otpVerifySection.style.display = "none";
-        if (sendOtpBtn) sendOtpBtn.style.display = "block";
-
-        const otpInput = document.getElementById("otp-input");
-        if (otpInput) otpInput.value = "";
-    }
 
     /**
      * Called on successful login
@@ -531,9 +360,16 @@ class AuthManager {
                     document.getElementById("profile-role").textContent = user.role === "admin" ? "Admin" : "User";
                     document.getElementById("profile-email").textContent = user.email;
                     document.getElementById("profile-mobile").textContent = user.mobile;
+                    
+                    if (window.app) {
+                        window.app.renderProfileData(user);
+                    }
+                    
                     profileModal.style.display = "flex";
+                    profileModal.classList.add("active");
                 }
             };
+
         }
 
         // Setup Profile Modal Close & Logout
@@ -541,13 +377,80 @@ class AuthManager {
         if (profileCloseBtn) {
             profileCloseBtn.onclick = () => {
                 document.getElementById("profile-modal").style.display = "none";
+                document.getElementById("profile-modal").classList.remove("active");
             };
         }
         const profileLogoutBtn = document.getElementById("profile-logout-btn");
         if (profileLogoutBtn) {
             profileLogoutBtn.onclick = () => {
                 document.getElementById("profile-modal").style.display = "none";
+                document.getElementById("profile-modal").classList.remove("active");
                 this.logout();
+            };
+        }
+
+        const profileEditBtn = document.getElementById("profile-edit-btn");
+        if (profileEditBtn) {
+            profileEditBtn.onclick = () => {
+                const nameSpan = document.getElementById("profile-name");
+                const nameInput = document.getElementById("edit-profile-name");
+                const mobileSpan = document.getElementById("profile-mobile");
+                const mobileInput = document.getElementById("edit-profile-mobile");
+
+                if (nameInput.style.display === "none") {
+                    // Enter edit mode
+                    nameInput.value = nameSpan.textContent;
+                    mobileInput.value = mobileSpan.textContent;
+
+                    nameSpan.style.display = "none";
+                    nameInput.style.display = "block";
+                    mobileSpan.style.display = "none";
+                    mobileInput.style.display = "block";
+
+                    profileEditBtn.innerHTML = '<i class="fa-solid fa-save"></i> Save Changes';
+                } else {
+                    // Save mode
+                    const user = this.getCurrentUser();
+                    if (!user) return;
+
+                    user.name = nameInput.value;
+                    user.mobile = mobileInput.value;
+
+                    nameSpan.textContent = user.name;
+                    mobileSpan.textContent = user.mobile;
+
+                    nameSpan.style.display = "block";
+                    nameInput.style.display = "none";
+                    mobileSpan.style.display = "block";
+                    mobileInput.style.display = "none";
+
+                    profileEditBtn.innerHTML = '<i class="fa-solid fa-pen"></i> Edit Profile';
+
+                    // Update session
+                    sessionStorage.setItem(this.SESSION_KEY, JSON.stringify(user));
+
+                    // Update registered users
+                    const storedUsers = localStorage.getItem(this.REGISTERED_USERS_KEY);
+                    if (storedUsers) {
+                        let registeredUsers = JSON.parse(storedUsers);
+                        let changed = false;
+                        for (let i = 0; i < registeredUsers.length; i++) {
+                            if (registeredUsers[i].email === user.email) {
+                                registeredUsers[i].name = user.name;
+                                registeredUsers[i].mobile = user.mobile;
+                                changed = true;
+                                break;
+                            }
+                        }
+                        if (changed) {
+                            localStorage.setItem(this.REGISTERED_USERS_KEY, JSON.stringify(registeredUsers));
+                        }
+                    }
+
+                    // Update UI (nav badge etc)
+                    this._updateNavForUser(user);
+                    if (window.app) window.app.showToast("Profile updated successfully!", "success");
+                }
             };
         }
 
@@ -618,49 +521,7 @@ class AuthManager {
         });
     }
 
-    /**
-     * Show OTP in a prominent banner inside the login card (used when app isn't initialized yet)
-     */
-    _showOTPBanner(otp, mobile) {
-        // Remove any existing OTP banner
-        const existing = document.getElementById("otp-display-banner");
-        if (existing) existing.remove();
 
-        const banner = document.createElement("div");
-        banner.id = "otp-display-banner";
-        banner.style.cssText = `
-            background: linear-gradient(135deg, rgba(16,185,129,0.15), rgba(16,185,129,0.08));
-            border: 1.5px solid rgba(16,185,129,0.4);
-            border-radius: 12px;
-            padding: 16px 20px;
-            margin: 12px 0;
-            text-align: center;
-            color: #fff;
-            animation: fadeIn 0.3s ease;
-        `;
-        banner.innerHTML = `
-            <div style="font-size:0.82rem; color:#6ee7b7; font-weight:600; margin-bottom:8px;">
-                📱 OTP sent to +91 ${mobile.slice(0, 5)}XXXXX (Demo Mode)
-            </div>
-            <div style="font-size:2rem; font-weight:800; letter-spacing:10px; color:#fff; font-family:monospace;">
-                ${otp}
-            </div>
-            <div style="font-size:0.75rem; color:rgba(255,255,255,0.5); margin-top:6px;">
-                Valid for 5 minutes · Copy and enter below
-            </div>
-        `;
-
-        // Insert before the otp-verify-section
-        const verifySection = document.getElementById("otp-verify-section");
-        if (verifySection) {
-            verifySection.insertBefore(banner, verifySection.firstChild);
-        }
-
-        // Auto-remove banner after 30 seconds
-        setTimeout(() => {
-            if (banner.parentNode) banner.remove();
-        }, 30000);
-    }
 }
 
 // Initialize auth on DOM ready

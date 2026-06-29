@@ -486,6 +486,8 @@ class AdminPanel {
     // BOOKINGS OPERATIONS
     // ==========================================================================
     renderBookingsTable() {
+        this.renderPropertyBookingsTable();
+
         const table = document.getElementById("admin-bookings-table");
         if (!table) return;
 
@@ -524,6 +526,58 @@ class AdminPanel {
                         </button>
                     </div>
                 </td>
+            `;
+            tbody.appendChild(row);
+        });
+    }
+
+    renderPropertyBookingsTable() {
+        const table = document.getElementById("admin-property-bookings-table");
+        if (!table) return;
+
+        const tbody = table.querySelector("tbody");
+        tbody.innerHTML = "";
+        
+        let propertyBookings = [];
+        if (window.app && window.app.propertyBookings) {
+            const allUsers = window.auth ? window.auth._getAllUsers() : [];
+            for (const email in window.app.propertyBookings) {
+                const userObj = allUsers.find(u => u.email === email) || { name: 'Unknown User', mobile: 'N/A' };
+                const userBks = window.app.propertyBookings[email];
+                userBks.forEach(bk => {
+                    let prop = bk.type === 'flat' ? window.app.flats.find(f => f.id === bk.id) : window.app.pgs.find(p => p.id === bk.id);
+                    if (prop) {
+                        propertyBookings.push({
+                            userName: userObj.name,
+                            userEmail: email,
+                            userMobile: userObj.mobile || 'N/A',
+                            propTitle: prop.title || prop.name,
+                            propType: bk.type === 'flat' ? 'Flat' : 'PG',
+                            date: new Date(bk.date).toLocaleDateString()
+                        });
+                    }
+                });
+            }
+        }
+
+        if (propertyBookings.length === 0) {
+            tbody.innerHTML = `<tr><td colspan="5" style="text-align:center; padding:30px; color:var(--neutral-600);">No property bookings yet.</td></tr>`;
+            return;
+        }
+
+        propertyBookings.sort((a, b) => new Date(b.date) - new Date(a.date));
+
+        propertyBookings.forEach(bk => {
+            const row = document.createElement("tr");
+            row.innerHTML = `
+                <td><strong>${bk.userName}</strong></td>
+                <td>
+                    <i class="fa-solid fa-phone" style="font-size:0.8rem;"></i> ${bk.userMobile}<br>
+                    <i class="fa-solid fa-envelope" style="font-size:0.8rem;"></i> ${bk.userEmail}
+                </td>
+                <td><strong>${bk.propTitle}</strong></td>
+                <td><span class="status-badge" style="background:var(--primary-light); color:var(--primary);">${bk.propType}</span></td>
+                <td>${bk.date}</td>
             `;
             tbody.appendChild(row);
         });

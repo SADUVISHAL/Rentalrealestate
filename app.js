@@ -184,6 +184,14 @@ class RealEstateApp {
             this.inbox = [];
             localStorage.setItem("rre_inbox", JSON.stringify(this.inbox));
         }
+
+        // Load Saved Properties (Cart)
+        const storedSaved = localStorage.getItem("rre_saved_props");
+        this.savedProperties = storedSaved ? JSON.parse(storedSaved) : {};
+
+        // Load Property Bookings
+        const storedPropBookings = localStorage.getItem("rre_prop_bookings");
+        this.propertyBookings = storedPropBookings ? JSON.parse(storedPropBookings) : {};
     }
 
     saveData(key, data) {
@@ -310,6 +318,119 @@ class RealEstateApp {
     }
 
     // ==========================================================================
+    // PROFILE LOGIC (Cart & Bookings)
+    // ==========================================================================
+    toggleStar(type, id) {
+        if (!window.auth || !window.auth.getCurrentUser()) {
+            this.showToast("Please login to save properties.", "error");
+            return;
+        }
+        const user = window.auth.getCurrentUser();
+        if (!this.savedProperties[user.email]) {
+            this.savedProperties[user.email] = [];
+        }
+        
+        const index = this.savedProperties[user.email].findIndex(item => item.id === id && item.type === type);
+        if (index > -1) {
+            this.savedProperties[user.email].splice(index, 1);
+            this.showToast("Removed from saved properties", "success");
+        } else {
+            this.savedProperties[user.email].push({ type, id });
+            this.showToast("Added to saved properties", "success");
+        }
+        this.saveData("saved_props", this.savedProperties);
+        
+        if (type === 'flat') this.renderFlats(this.flats);
+        else this.renderPGs(this.pgs);
+        
+        if (document.getElementById("profile-modal").style.display === "flex") {
+            this.renderProfileData(user);
+        }
+    }
+
+    bookProperty(type, id) {
+        if (!window.auth || !window.auth.getCurrentUser()) {
+            this.showToast("Please login to book properties.", "error");
+            return;
+        }
+        const user = window.auth.getCurrentUser();
+        if (!this.propertyBookings[user.email]) {
+            this.propertyBookings[user.email] = [];
+        }
+        
+        const alreadyBooked = this.propertyBookings[user.email].some(item => item.id === id && item.type === type);
+        if (alreadyBooked) {
+            this.showToast("You have already booked this property!", "error");
+            return;
+        }
+        
+        this.propertyBookings[user.email].push({ type, id, date: new Date().toISOString() });
+        this.saveData("prop_bookings", this.propertyBookings);
+        this.showToast("Property booked successfully!", "success");
+        
+        if (type === 'flat') this.renderFlats(this.flats);
+        else this.renderPGs(this.pgs);
+
+        if (document.getElementById("profile-modal").style.display === "flex") {
+            this.renderProfileData(user);
+        }
+    }
+
+    unbookProperty(type, id) {
+        if (!window.auth || !window.auth.getCurrentUser()) return;
+        const user = window.auth.getCurrentUser();
+        if (!this.propertyBookings[user.email]) return;
+
+        this.propertyBookings[user.email] = this.propertyBookings[user.email].filter(item => !(item.id === id && item.type === type));
+        this.saveData("prop_bookings", this.propertyBookings);
+        this.showToast("Property unbooked.", "success");
+
+        if (type === 'flat') this.renderFlats(this.flats);
+        else this.renderPGs(this.pgs);
+
+        if (document.getElementById("profile-modal").style.display === "flex" || document.getElementById("profile-modal").style.display === "block") {
+            this.renderProfileData(user);
+        }
+    }
+
+    renderProfileData(user) {
+        const bookingsContainer = document.getElementById("profile-bookings");
+        const savedContainer = document.getElementById("profile-saved");
+        if (!bookingsContainer || !savedContainer) return;
+
+        const userBookings = this.propertyBookings[user.email] || [];
+        const userSaved = this.savedProperties[user.email] || [];
+
+        const renderItem = (item, isBooking) => {
+            let prop = item.type === 'flat' ? this.flats.find(f => f.id === item.id) : this.pgs.find(p => p.id === item.id);
+            if (!prop) return '';
+            const actionBtn = isBooking 
+                ? `<button class="btn btn-secondary" style="padding: 4px 10px; font-size: 0.75rem; border-radius: 5px; color: var(--danger); border-color: var(--danger);" onclick="app.unbookProperty('${item.type}', '${item.id}')">Unbook</button>`
+                : `<button class="btn btn-secondary" style="padding: 4px 10px; font-size: 0.75rem; border-radius: 5px; color: var(--danger); border-color: var(--danger);" onclick="app.toggleStar('${item.type}', '${item.id}')">Remove</button>`;
+
+            return `<div style="padding: 10px; border-bottom: 1px solid var(--neutral-200); display: flex; justify-content: space-between; align-items: center; border-radius: 8px; margin-bottom: 5px; background: white; flex-wrap: wrap; gap: 5px;">
+                <span style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 200px; font-weight: 500;">${prop.title || prop.name}</span>
+                <div style="display: flex; gap: 5px;">
+                    <button class="btn btn-secondary" style="padding: 4px 10px; font-size: 0.75rem; border-radius: 5px;" onclick="app.showDetailModal('${item.type}', '${item.id}', true, true)">View</button>
+                    ${actionBtn}
+                </div>
+            </div>`;
+        };
+
+        if (userBookings.length === 0) {
+            bookingsContainer.innerHTML = "<p style='color: var(--neutral-500); text-align: center; margin-top: 10px;'>No bookings yet.</p>";
+        } else {
+            bookingsContainer.innerHTML = userBookings.map(b => renderItem(b, true)).join('');
+        }
+
+        if (userSaved.length === 0) {
+            savedContainer.innerHTML = "<p style='color: var(--neutral-500); text-align: center; margin-top: 10px;'>No saved properties.</p>";
+        } else {
+            savedContainer.innerHTML = userSaved.map(s => renderItem(s, false)).join('');
+        }
+    }
+
+    // ==========================================================================
     // FLATS LOGIC (Render & Filters)
     // ==========================================================================
     renderFlats(flatsData) {
@@ -402,14 +523,25 @@ class RealEstateApp {
                         ${remainingAmenities}
                     </div>
                     <div class="property-actions">
+                        ${(window.auth && window.auth.getCurrentUser()) ? `
+                            <button class="btn btn-cart-icon" style="padding: 8px 12px; border: 1px solid var(--neutral-200); border-radius: 8px; background: white; cursor: pointer; color: ${(this.savedProperties[window.auth.getCurrentUser().email] || []).some(i => i.id === flat.id) ? 'var(--primary)' : 'var(--neutral-500)'};" onclick="app.toggleStar('flat', '${flat.id}')" title="Add to Cart">
+                                <i class="fa-solid fa-cart-shopping"></i>
+                            </button>
+                        ` : ''}
                         <button class="btn btn-secondary" onclick="app.showDetailModal('flat', '${flat.id}')">
                             <i class="fa-solid fa-eye"></i> View Details
                         </button>
-                        <a href="${whatsappUrl}" class="btn btn-contact" target="_blank">
-                            <i class="fa-solid fa-comment-dots"></i> Contact Owner
-                        </a>
-                        <a href="${this.buildShareUrl(flat, 'flat')}" class="btn btn-whatsapp-share" target="_blank" title="Share on WhatsApp">
-                            <i class="fa-brands fa-whatsapp"></i> Share
+                        ${(window.auth && window.auth.getCurrentUser() && (this.propertyBookings[window.auth.getCurrentUser().email] || []).some(i => i.id === flat.id)) ? `
+                            <button class="btn btn-primary" style="background: var(--success); border-color: var(--success);" onclick="app.unbookProperty('flat', '${flat.id}')" title="Click to unbook">
+                                <i class="fa-solid fa-check"></i> Booked
+                            </button>
+                        ` : `
+                            <button class="btn btn-primary" onclick="app.bookProperty('flat', '${flat.id}')">
+                                Book Now
+                            </button>
+                        `}
+                        <a href="${whatsappUrl}" class="btn btn-contact" target="_blank" title="Contact Owner">
+                            <i class="fa-solid fa-comment-dots"></i>
                         </a>
                         <button class="btn btn-copy-link-icon" onclick="app.copyPropertyLink('flat', '${flat.id}')" title="Copy Property Link">
                             <i class="fa-regular fa-copy"></i>
@@ -603,14 +735,25 @@ class RealEstateApp {
                         ${remainingFacilities}
                     </div>
                     <div class="property-actions">
+                        ${(window.auth && window.auth.getCurrentUser()) ? `
+                            <button class="btn btn-cart-icon" style="padding: 8px 12px; border: 1px solid var(--neutral-200); border-radius: 8px; background: white; cursor: pointer; color: ${(this.savedProperties[window.auth.getCurrentUser().email] || []).some(i => i.id === pg.id) ? 'var(--primary)' : 'var(--neutral-500)'};" onclick="app.toggleStar('pg', '${pg.id}')" title="Add to Cart">
+                                <i class="fa-solid fa-cart-shopping"></i>
+                            </button>
+                        ` : ''}
                         <button class="btn btn-secondary" onclick="app.showDetailModal('pg', '${pg.id}')">
                             <i class="fa-solid fa-eye"></i> View Details
                         </button>
-                        <a href="${whatsappUrl}" class="btn btn-contact" target="_blank">
-                            <i class="fa-solid fa-comment-dots"></i> Contact Owner
-                        </a>
-                        <a href="${this.buildShareUrl(pg, 'pg')}" class="btn btn-whatsapp-share" target="_blank" title="Share on WhatsApp">
-                            <i class="fa-brands fa-whatsapp"></i> Share
+                        ${(window.auth && window.auth.getCurrentUser() && (this.propertyBookings[window.auth.getCurrentUser().email] || []).some(i => i.id === pg.id)) ? `
+                            <button class="btn btn-primary" style="background: var(--success); border-color: var(--success);" onclick="app.unbookProperty('pg', '${pg.id}')" title="Click to unbook">
+                                <i class="fa-solid fa-check"></i> Booked
+                            </button>
+                        ` : `
+                            <button class="btn btn-primary" onclick="app.bookProperty('pg', '${pg.id}')">
+                                Book Now
+                            </button>
+                        `}
+                        <a href="${whatsappUrl}" class="btn btn-contact" target="_blank" title="Contact Owner">
+                            <i class="fa-solid fa-comment-dots"></i>
                         </a>
                         <button class="btn btn-copy-link-icon" onclick="app.copyPropertyLink('pg', '${pg.id}')" title="Copy Property Link">
                             <i class="fa-regular fa-copy"></i>
@@ -728,9 +871,15 @@ class RealEstateApp {
         if (closeBtn) {
             closeBtn.addEventListener("click", () => {
                 modal.classList.remove("active");
-                // Revert hash to the active section hash
-                const section = this.activeSection.replace("-section", "");
-                window.location.hash = section;
+                if (this.isDetailModalFromProfile) {
+                    const profileModal = document.getElementById("profile-modal");
+                    profileModal.style.display = "flex";
+                    profileModal.classList.add("active");
+                    this.isDetailModalFromProfile = false;
+                } else {
+                    const section = this.activeSection.replace("-section", "");
+                    window.location.hash = section;
+                }
             });
         }
 
@@ -739,10 +888,27 @@ class RealEstateApp {
             modal.addEventListener("click", (e) => {
                 if (e.target === modal) {
                     modal.classList.remove("active");
-                    // Revert hash
-                    const section = this.activeSection.replace("-section", "");
-                    window.location.hash = section;
+                    if (this.isDetailModalFromProfile) {
+                        const profileModal = document.getElementById("profile-modal");
+                        profileModal.style.display = "flex";
+                        profileModal.classList.add("active");
+                        this.isDetailModalFromProfile = false;
+                    } else {
+                        const section = this.activeSection.replace("-section", "");
+                        window.location.hash = section;
+                    }
                 }
+            });
+        }
+
+        const backToProfileBtn = document.getElementById("modal-back-to-profile-btn");
+        if (backToProfileBtn) {
+            backToProfileBtn.addEventListener("click", () => {
+                modal.classList.remove("active");
+                const profileModal = document.getElementById("profile-modal");
+                profileModal.style.display = "flex";
+                profileModal.classList.add("active");
+                this.isDetailModalFromProfile = false;
             });
         }
 
@@ -761,7 +927,7 @@ class RealEstateApp {
         }
     }
 
-    showDetailModal(type, id, updateHash = true) {
+    showDetailModal(type, id, updateHash = true, fromProfile = false) {
         const modal = document.getElementById("property-detail-modal");
         
         let item;
@@ -772,6 +938,16 @@ class RealEstateApp {
         }
 
         if (!item || !modal) return;
+
+        this.isDetailModalFromProfile = fromProfile;
+        const backToProfileBtn = document.getElementById("modal-back-to-profile-btn");
+        if (backToProfileBtn) {
+            backToProfileBtn.style.display = fromProfile ? "inline-flex" : "none";
+        }
+        if (fromProfile) {
+            document.getElementById("profile-modal").style.display = "none";
+            document.getElementById("profile-modal").classList.remove("active");
+        }
 
         // Populate Modal Fields
         document.getElementById("modal-title").textContent = item.title || item.name;
