@@ -398,6 +398,15 @@ class RealEstateApp {
         const savedContainer = document.getElementById("profile-saved");
         if (!bookingsContainer || !savedContainer) return;
 
+        if (user.role === 'admin') {
+            bookingsContainer.parentElement.style.display = 'none';
+            savedContainer.parentElement.style.display = 'none';
+            return;
+        } else {
+            bookingsContainer.parentElement.style.display = 'block';
+            savedContainer.parentElement.style.display = 'block';
+        }
+
         const userBookings = this.propertyBookings[user.email] || [];
         const userSaved = this.savedProperties[user.email] || [];
 
